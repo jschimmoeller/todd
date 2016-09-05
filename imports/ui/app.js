@@ -17,11 +17,10 @@ class App extends Component {
   constructor(props){
     super(props);
 
-    this.state = {isSettingsOpen: false};
+    this.state = {isSettingsOpen: false, status: "showEntry" };
     this.handleDelete = this.handleDelete.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleSave = this.handleSave.bind(this);
-    this.reset = this.reset.bind(this);
   }
 
   handleDelete(id){
@@ -38,11 +37,7 @@ class App extends Component {
     } else {
       Meteor.call('services.insert', item.title, item.featureCode );
     }
-    this.reset();
-  }
-
-  reset(){
-    this.setState({ ...this.state, editItem: undefined, isAdding: false });
+    this.setState({ ...this.state, status: 'showSettings', editItem: undefined, isAdding: false });
   }
 
   renderServices(){
@@ -58,30 +53,70 @@ class App extends Component {
   }
 
   //TODO remove
+  /* <button onClick={()=>{
+    const x = HMIS.find({}).fetch();
+    x.map((h)=>{
+      Meteor.call('hmis.remove', h._id);
+
+    })
+    console.log('all removed');
+  }} >remove All hmis</button>
+
+        <br />
+        <button onClick={()=>{
+          const x = HMIS.find({}).fetch();
+          x.map((h)=>{
+            //console.log('hhhhh', h._id);
+            const services = Services.find({}).fetch();
+            Meteor.call('daily.insert', h, services);
+
+          });
+        }} >add service </button>
+        <button onClick={()=>{
+          const x = Daily.find({}).fetch();
+          console.log('daily: ', x );
+        }} >list daily </button>
+        <button onClick={()=>{
+          Meteor.call('daily.findToday', 5, function(error, data){
+            console.log('FINDING Daily  : ', error, data );
+          });
+
+        }} >Find daily </button>
+        <button onClick={()=>{
+          const x = Daily.find({}).fetch();
+          x.map((d)=>{
+            Meteor.call('daily.remove', d._id);
+          })
+          console.log('removed all Daily entries');
+        }} >remove ALL daily </button>
+
+  */
   renderTempButtons(){
     return (
       <span>
       <button onClick={()=>{
-        const x = HMIS.find({hmisId: 5}).fetch();
-        console.log('>>>>', x);
+        const x = HMIS.find({hmisId: Number(this.refs.hmisId.value)}).fetch();
+        console.log('>>>>', this.refs, this.refs.hmisId.value,  x);
         if (x.length === 0){
           // add one
-          const h = {};
-          h.hmisId = 5;
-          h.firstname = 'Lena';
-          h.middleInitial = 'K';
-          h.lastname = 'Smith';
-          h.dob= new Date();
-          h.race='b';
-          h.gender ='F';
-          h.firstVisit = new Date();
-          Meteor.call('hmis.insert', h);
-          console.log('inserted')
+          // const h = {};
+          // h.hmisId = Number(this.refs.hmisId.value);
+          // h.firstname = 'Lena';
+          // h.middleInitial = 'K';
+          // h.lastname = 'Smith';
+          // h.dob= new Date();
+          // h.race='b';
+          // h.gender ='F';
+          // h.firstVisit = new Date();
+          // Meteor.call('hmis.insert', h);
+          console.log('Not Found')
+          this.setState({ ...this.state,  status: "showNotFound", hmisId: Number(this.refs.hmisId.value)});
         } else {
-          const h = { ...x[0] };
-          h.race='w';
-          Meteor.call('hmis.update', x[0]._id, h);
-          console.log('updated')
+          // const h = { ...x[0] };
+          // h.race='w';
+          // Meteor.call('hmis.update', x[0]._id, h);
+          console.log('Found IT')
+          this.setState({ ...this.state,  status: "showServices", hmisId: Number(this.refs.hmisId.value)});
         }
 
       }} >find hmis</button>
@@ -90,94 +125,107 @@ class App extends Component {
         console.log('^^^^', x)
 
       }} >list hmis</button>
-      <button onClick={()=>{
-        const x = HMIS.find({}).fetch();
-        x.map((h)=>{
-          Meteor.call('hmis.remove', h._id);
 
-        })
-        console.log('all removed');
-      }} >remove All hmis</button>
-      <br />
-      <button onClick={()=>{
-        const x = HMIS.find({}).fetch();
-        x.map((h)=>{
-          //console.log('hhhhh', h._id);
-          const services = Services.find({}).fetch();
-          Meteor.call('daily.insert', h, services);
-
-        });
-      }} >add service </button>
-      <button onClick={()=>{
-        const x = Daily.find({}).fetch();
-        console.log('daily: ', x );
-      }} >list daily </button>
-      <button onClick={()=>{
-        Meteor.call('daily.findToday', 5, function(error, data){
-          console.log('FINDING Daily  : ', error, data );
-        });
-
-      }} >Find daily </button>
-      <button onClick={()=>{
-        const x = Daily.find({}).fetch();
-        x.map((d)=>{
-          Meteor.call('daily.remove', d._id);
-        })
-        console.log('removed all Daily entries');
-      }} >remove ALL daily </button>
       </span>
     );
   }
 
-  render(){
-    const settingsComponent = <img src='./settings.png' width="25px" height="25px" onClick={()=>{
-      this.setState({isSettingsOpen: !this.state.isSettingsOpen});
-      if (this.state.isSettingsOpen){
-        setTimeout(this.reset, 100); //must be on timer or will wipe out above state being set
-      }
-    }}/>;
-
-    if (this.state.isSettingsOpen){
-      const backComponent = <img src='./arrowleft.png' width="25px" height="25px" onClick={()=>{
-        //console.log('back');
-        this.setState({isSettingsOpen: !this.state.isSettingsOpen});
-        if (this.state.isSettingsOpen){
-          setTimeout(this.reset, 100); //must be on timer or will wipe out above state being set
-        }
-      }}/>;
-      let addComponent;
-      if (this.state.isAdding){
-        addComponent = <ServiceItemEdit cbSave={this.handleSave} />;
-      } else {
-        addComponent = (
-          <img src='/add.png' width="30" height="30" onClick={()=>{
-            this.setState({ ...this.state, isAdding: !this.state.isAdding })
-          }} />
+  getBody(){
+    switch(this.state.status){
+      case 'showEntry':
+        console.log('entry');
+        return(
+          <div style={{ margin: "auto", flex: "5 100%"}}>
+            <input ref="hmisId" />
+            {this.renderTempButtons()}
+          </div>
         );
-      }
-      return (
-        <div style={{display: "flex", flexDirection: "column", minHeight: "100vh"}}>
-          <Header title="TODD Settings" componentLeft={backComponent}  componentRight={settingsComponent} />
+      case 'showServices':
+        console.log('services ');
+        return(
+          <div style={{ margin: "auto", flex: "5 100%"}}>
+            <input ref="hmisId" />
+            {this.renderTempButtons()}
+            <div>services here </div>
+          </div>
+        );
+      case 'showNotFound':
+        console.log('showing not found ');
+        return(
+          <div style={{ margin: "auto", flex: "5 100%"}}>
+            <input ref="hmisId" />
+            {this.renderTempButtons()}
+            <div>NOT Found</div>
+          </div>
+        );
+      case 'showSettings':
+        let addComponent;
+        if (this.state.isAdding){
+          addComponent = (<ServiceItemEdit cbSave={this.handleSave} />);
+        } else {
+          addComponent = (
+            <img src='/add.png' width="30" height="30" onClick={()=>{
+              this.setState({ ...this.state, isAdding: !this.state.isAdding })
+            }} />
+          );
+        }
+        return (
           <div style={{ margin: "auto", flex: "5 100%"}}>
             <ul>
               {this.renderServices()}
             </ul>
             {addComponent}
           </div>
-          <Footer hmisCount={this.props.hmisCount}/>
-        </div>
-      );
-    } else {
-      return (
-        <div style={{display: "flex", flexDirection: "column", minHeight: "100vh"}}>
-          <Header title={"TODD - "+moment().format('MMM D, YYYY')} componentRight={settingsComponent}/>
-          <div style={{ margin: "auto", flex: "5 100%"}}>
-            {this.renderTempButtons()}
-          </div>
-          <Footer hmisCount={this.props.hmisCount}/>
-        </div>
-      );
+        );
+
+      default:
+        console.log('NOT NOT NOT Found');
+        break;
     }
+
+  }
+
+  render(){
+    console.log('>>> RENDERING: ', this.state);
+
+    // always need settings component
+    const settingsComponent = <img src='./settings.png' width="25px" height="25px" onClick={()=>{
+      if (this.state.status === "showSettings"){
+        this.setState({ ...this.state, status: 'showEntry', editItem: undefined, isAdding: false });
+      } else {
+        this.setState({ ...this.state, status: "showSettings"});
+      }
+    }}/>;
+
+    let HeaderComponent;
+
+    switch(this.state.status){
+      case 'showEntry':
+      case 'showServices':
+      case 'showNotFound':
+        HeaderComponent = (<Header title={"TODD - "+moment().format('MMM D, YYYY')} componentRight={settingsComponent}/>);
+        break;
+
+      case 'showSettings':
+        const backComponent = (<img src='./arrowleft.png' width="25px" height="25px" onClick={()=>{
+          //console.log('back');
+          this.setState({ ...this.state, status: 'showEntry', editItem: undefined, isAdding: false });
+        }}/>);
+        HeaderComponent = (<Header title="TODD Settings" componentLeft={backComponent}  componentRight={settingsComponent} />);
+        break;
+
+      default:
+        console.log('NOT NOT NOT Found');
+        break;
+    }
+    // return here
+    return (
+      <div style={{display: "flex", flexDirection: "column", minHeight: "100vh"}}>
+        {HeaderComponent}
+        {this.getBody()}
+        <Footer hmisCount={this.props.hmisCount}/>
+      </div>
+    );
   }
 }
 App.propTypes = {
