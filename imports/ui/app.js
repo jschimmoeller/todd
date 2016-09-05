@@ -38,11 +38,12 @@ class App extends Component {
       Meteor.call('services.insert', item.title, item.featureCode );
     }
     this.reset();
-
   }
+
   reset(){
     this.setState({ ...this.state, editItem: undefined, isAdding: false });
   }
+
   renderServices(){
     return this.props.services.map((s)=>{
       return (
@@ -53,6 +54,51 @@ class App extends Component {
           cbSave={this.handleSave} />
       );
     });
+  }
+
+  //TODO remove 
+  renderTempButtons(){
+    return (
+      <span>
+      <button onClick={()=>{
+        const x = HMIS.find({hmisId: 5}).fetch();
+        console.log('>>>>', x);
+        if (x.length === 0){
+          // add one
+          const h = {};
+          h.hmisId = 5;
+          h.firstname = 'Lena';
+          h.middleInitial = 'K';
+          h.lastname = 'Smith';
+          h.dob= new Date();
+          h.race='b';
+          h.gender ='F';
+          h.firstVisit = new Date();
+          Meteor.call('hmis.insert', h);
+          console.log('inserted')
+        } else {
+          const h = { ...x[0] };
+          h.race='w';
+          Meteor.call('hmis.update', x[0]._id, h);
+          console.log('updated')
+        }
+
+      }} >find hmis</button>
+      <button onClick={()=>{
+        const x = HMIS.find({}).fetch();
+        console.log('^^^^', x)
+
+      }} >list hmis</button>
+      <button onClick={()=>{
+        const x = HMIS.find({}).fetch();
+        x.map((h)=>{
+          Meteor.call('hmis.remove', h._id);
+
+        })
+        console.log('all removed');
+      }} >remove All hmis</button>
+      </span>
+    );
   }
 
   render(){
@@ -98,43 +144,7 @@ class App extends Component {
         <div style={{display: "flex", flexDirection: "column", minHeight: "100vh"}}>
           <Header title={"TODD - "+moment().format('MMM D, YYYY')} componentRight={settingsComponent}/>
           <div style={{ margin: "auto", flex: "5 100%"}}>
-            <button onClick={()=>{
-              const x = HMIS.find({hmisId: 5}).fetch();
-              console.log('>>>>', x);
-              if (x.length === 0){
-                // add one
-                const h = {};
-                h.hmisId = 5;
-                h.firstname = 'Lena';
-                h.middleInitial = 'K';
-                h.lastname = 'Smith';
-                h.dob= new Date();
-                h.race='b';
-                h.gender ='F';
-                h.firstVisit = new Date();
-                Meteor.call('hmis.insert', h);
-                console.log('inserted')
-              } else {
-                const h = { ...x[0] };
-                h.race='w';
-                Meteor.call('hmis.update', x[0]._id, h);
-                console.log('updated')
-              }
-
-            }} >find hmis</button>
-            <button onClick={()=>{
-              const x = HMIS.find({}).fetch();
-              console.log('^^^^', x)
-
-            }} >list hmis</button>
-            <button onClick={()=>{
-              const x = HMIS.find({}).fetch();
-              x.map((h)=>{
-                Meteor.call('hmis.remove', h._id);
-
-              })
-              console.log('all removed');
-            }} >remove All hmis</button>
+            {this.renderTempButtons()}
           </div>
           <Footer />
         </div>
