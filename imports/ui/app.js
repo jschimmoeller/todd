@@ -112,7 +112,9 @@ class App extends Component {
             // h.firstVisit = new Date();
             // Meteor.call('hmis.insert', h);
             console.log('Not Found')
-            this.setState({ ...this.state,  status: "showNotFound", hmisId: Number(this.refs.hmisId.value)});
+            this.setState({ ...this.state,  status: "showNotFound", hmisId: undefined});
+            this.refs.hmisId.value = '';
+            this.refs.hmisId.focus();
           } else {
             console.log('Found IT')
             this.setState({ ...this.state,  status: "showServices", hmisId: Number(this.refs.hmisId.value)});
@@ -132,7 +134,7 @@ class App extends Component {
         console.log('entry');
         return(
           <div style={{ margin: "auto", flex: "5 100%"}}>
-            <input ref="hmisId" />
+            <input ref="hmisId" defaultValue={this.state.hmisId} />
             {this.renderTempButtons()}
           </div>
         );
