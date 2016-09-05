@@ -21,6 +21,8 @@ class App extends Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.getBody = this.getBody.bind(this);
+    this.renderServices = this.renderServices.bind(this);
   }
 
   handleDelete(id){
@@ -94,38 +96,32 @@ class App extends Component {
   renderTempButtons(){
     return (
       <span>
-      <button onClick={()=>{
-        const x = HMIS.find({hmisId: Number(this.refs.hmisId.value)}).fetch();
-        console.log('>>>>', this.refs, this.refs.hmisId.value,  x);
-        if (x.length === 0){
-          // add one
-          // const h = {};
-          // h.hmisId = Number(this.refs.hmisId.value);
-          // h.firstname = 'Lena';
-          // h.middleInitial = 'K';
-          // h.lastname = 'Smith';
-          // h.dob= new Date();
-          // h.race='b';
-          // h.gender ='F';
-          // h.firstVisit = new Date();
-          // Meteor.call('hmis.insert', h);
-          console.log('Not Found')
-          this.setState({ ...this.state,  status: "showNotFound", hmisId: Number(this.refs.hmisId.value)});
-        } else {
-          // const h = { ...x[0] };
-          // h.race='w';
-          // Meteor.call('hmis.update', x[0]._id, h);
-          console.log('Found IT')
-          this.setState({ ...this.state,  status: "showServices", hmisId: Number(this.refs.hmisId.value)});
-        }
-
-      }} >find hmis</button>
-      <button onClick={()=>{
-        const x = HMIS.find({}).fetch();
-        console.log('^^^^', x)
-
-      }} >list hmis</button>
-
+        <button onClick={()=>{
+          const x = HMIS.find({hmisId: Number(this.refs.hmisId.value)}).fetch();
+          console.log('>>>>', this.refs, this.refs.hmisId.value,  x);
+          if (x.length === 0){
+            // add one
+            // const h = {};
+            // h.hmisId = Number(this.refs.hmisId.value);
+            // h.firstname = 'Lena';
+            // h.middleInitial = 'K';
+            // h.lastname = 'Smith';
+            // h.dob= new Date();
+            // h.race='b';
+            // h.gender ='F';
+            // h.firstVisit = new Date();
+            // Meteor.call('hmis.insert', h);
+            console.log('Not Found')
+            this.setState({ ...this.state,  status: "showNotFound", hmisId: Number(this.refs.hmisId.value)});
+          } else {
+            console.log('Found IT')
+            this.setState({ ...this.state,  status: "showServices", hmisId: Number(this.refs.hmisId.value)});
+          }
+        }} >find hmis</button>
+        <button onClick={()=>{
+          const x = HMIS.find({}).fetch();
+          console.log('^^^^', x)
+        }} >list hmis</button>
       </span>
     );
   }
@@ -144,9 +140,14 @@ class App extends Component {
         console.log('services ');
         return(
           <div style={{ margin: "auto", flex: "5 100%"}}>
-            <input ref="hmisId" />
-            {this.renderTempButtons()}
             <div>services here </div>
+            <button onClick={()=>{
+              this.setState({ ...this.state, status: 'showEntry', hmisId: undefined })
+            }}>Cancel</button>
+            <button onClick={()=>{
+              console.log('TODO save services ');
+              this.setState({ ...this.state, status: 'showEntry', hmisId: undefined })
+            }}>Save</button>
           </div>
         );
       case 'showNotFound':
@@ -182,7 +183,6 @@ class App extends Component {
         console.log('NOT NOT NOT Found');
         break;
     }
-
   }
 
   render(){
@@ -197,15 +197,14 @@ class App extends Component {
       }
     }}/>;
 
+    //compute headerComponent
     let HeaderComponent;
-
     switch(this.state.status){
       case 'showEntry':
       case 'showServices':
       case 'showNotFound':
         HeaderComponent = (<Header title={"TODD - "+moment().format('MMM D, YYYY')} componentRight={settingsComponent}/>);
         break;
-
       case 'showSettings':
         const backComponent = (<img src='./arrowleft.png' width="25px" height="25px" onClick={()=>{
           //console.log('back');
@@ -213,12 +212,11 @@ class App extends Component {
         }}/>);
         HeaderComponent = (<Header title="TODD Settings" componentLeft={backComponent}  componentRight={settingsComponent} />);
         break;
-
       default:
         console.log('NOT NOT NOT Found');
         break;
     }
-    // return here
+    // main return here
     return (
       <div style={{display: "flex", flexDirection: "column", minHeight: "100vh"}}>
         {HeaderComponent}
