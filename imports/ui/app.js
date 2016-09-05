@@ -164,7 +164,7 @@ class App extends Component {
             </ul>
             {addComponent}
           </div>
-          <Footer />
+          <Footer hmisCount={this.props.hmisCount}/>
         </div>
       );
     } else {
@@ -174,7 +174,7 @@ class App extends Component {
           <div style={{ margin: "auto", flex: "5 100%"}}>
             {this.renderTempButtons()}
           </div>
-          <Footer />
+          <Footer hmisCount={this.props.hmisCount}/>
         </div>
       );
     }
@@ -185,7 +185,23 @@ App.propTypes = {
 };
 
 export default createContainer(() => {
+  let today = new Date();
+  today.setHours(0);
+  today.setMinutes(0);
+  today.setSeconds(0);
+  let tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1 );
+  tomorrow.setHours(0);
+  tomorrow.setMinutes(0);
+  tomorrow.setSeconds(0);
+
+  const hmisDaily =  Daily.find({ createdAt: {
+    $gte: today,
+    $lt: tomorrow
+  }}).fetch();
+
   return {
     services: Services.find({}, { sort: { title: 0 } }).fetch(),
+    hmisCount: hmisDaily.length,
   };
 }, App);
