@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-// App component - represents the whole app
-export default class ServiceItemEdit extends Component {
+class ServiceItemEdit extends Component {
   constructor(props){
     super(props);
     this.handleSave = this.handleSave.bind(this);
@@ -46,3 +45,6 @@ ServiceItemEdit.propTypes = {
   item: PropTypes.object,
   cbSave: PropTypes.func.isRequired,
 };
+
+
+export default ServiceItemEdit;

@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ServiceItemEdit from './serviceItemEdit';
 
-// App component - represents the whole app
-export default class ServiceItem extends Component {
+class ServiceItem extends Component {
   constructor(props){
     super(props);
 
@@ -27,11 +26,11 @@ export default class ServiceItem extends Component {
 }
 
 ServiceItem.propTypes = {
-  // This component gets the task to display through a React prop.
-  // We can use propTypes to indicate it is required
   item: PropTypes.object.isRequired,
   isOpen: PropTypes.bool.isRequired,
   cbEdit: PropTypes.func.isRequired,
   cbDelete: PropTypes.func.isRequired,
   cbSave: PropTypes.func.isRequired,
 };
+
+export default ServiceItem;
