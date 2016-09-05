@@ -13,7 +13,6 @@ export default class ServiceItemEdit extends Component {
 
     const item = { ...this.props.item, title, featureCode };
     this.props.cbSave(item);
-    //Meteor.call('services.insert', title, featureCode);
 
     if (!this.props.item){
       // Clear form

@@ -3,8 +3,9 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import moment from 'moment';
 
-import { Services } from '../api/services.js';
-import { HMIS } from '../api/hmis.js';
+import { Services } from '../api/services';
+import { HMIS } from '../api/hmis';
+import { Daily } from '../api/daily';
 
 import Footer from './footer';
 import Header from './header';
@@ -56,7 +57,7 @@ class App extends Component {
     });
   }
 
-  //TODO remove 
+  //TODO remove
   renderTempButtons(){
     return (
       <span>
@@ -97,6 +98,33 @@ class App extends Component {
         })
         console.log('all removed');
       }} >remove All hmis</button>
+      <br />
+      <button onClick={()=>{
+        const x = HMIS.find({}).fetch();
+        x.map((h)=>{
+          //console.log('hhhhh', h._id);
+          const services = Services.find({}).fetch();
+          Meteor.call('daily.insert', h, services);
+
+        });
+      }} >add service </button>
+      <button onClick={()=>{
+        const x = Daily.find({}).fetch();
+        console.log('daily: ', x );
+      }} >list daily </button>
+      <button onClick={()=>{
+        Meteor.call('daily.findToday', 5, function(error, data){
+          console.log('FINDING Daily  : ', error, data );
+        });
+
+      }} >Find daily </button>
+      <button onClick={()=>{
+        const x = Daily.find({}).fetch();
+        x.map((d)=>{
+          Meteor.call('daily.remove', d._id);
+        })
+        console.log('removed all Daily entries');
+      }} >remove ALL daily </button>
       </span>
     );
   }
