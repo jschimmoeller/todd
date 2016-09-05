@@ -1,11 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
+import moment from 'moment';
 
 import { Services } from '../api/services.js';
+import { HMIS } from '../api/hmis.js';
 
 import Footer from './footer';
 import Header from './header';
+import ServiceItem from './serviceItem';
+import ServiceItemEdit from './serviceItemEdit';
 
 // App component - represents the whole app
 class App extends Component {
@@ -13,82 +17,129 @@ class App extends Component {
     super(props);
 
     this.state = {isSettingsOpen: false};
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
+  handleDelete(id){
+    Meteor.call('services.remove', id);
+  }
+  handleEdit(id){
+    this.setState({ ...this.state, editItem: id });
+    //console.log("editing", id);
+  }
+  handleSave(item){
+    //console.log('saving item: ', item);
+    if (item.hasOwnProperty('_id')){
+      Meteor.call('services.update', item._id, item.title, item.featureCode );
+    } else {
+      Meteor.call('services.insert', item.title, item.featureCode );
+    }
+    this.reset();
+
+  }
+  reset(){
+    this.setState({ ...this.state, editItem: undefined, isAdding: false });
+  }
   renderServices(){
     return this.props.services.map((s)=>{
-      console.log('>>>>', s);
       return (
-        <li key={s._id} style={{listStyle: "none"}}>
-          {s.title} - {s.featureCode}
-          <button onClick={()=>{
-            console.log('dddd');
-            Meteor.call('services.remove', s._id);
-          }}>Delete</button>
-        </li>
+        <ServiceItem key={s._id} item={s}
+          isOpen={s._id === this.state.editItem }
+          cbEdit={this.handleEdit}
+          cbDelete={this.handleDelete}
+          cbSave={this.handleSave} />
       );
     });
   }
 
   render(){
     const settingsComponent = <img src='./settings.png' width="25px" height="25px" onClick={()=>{
-      console.log('services');
       this.setState({isSettingsOpen: !this.state.isSettingsOpen});
+      if (this.state.isSettingsOpen){
+        setTimeout(this.reset, 100); //must be on timer or will wipe out above state being set
+      }
     }}/>;
 
     if (this.state.isSettingsOpen){
       const backComponent = <img src='./arrowleft.png' width="25px" height="25px" onClick={()=>{
-        console.log('back');
+        //console.log('back');
         this.setState({isSettingsOpen: !this.state.isSettingsOpen});
+        if (this.state.isSettingsOpen){
+          setTimeout(this.reset, 100); //must be on timer or will wipe out above state being set
+        }
       }}/>;
+      let addComponent;
+      if (this.state.isAdding){
+        addComponent = <ServiceItemEdit cbSave={this.handleSave} />;
+      } else {
+        addComponent = (
+          <img src='/add.png' width="30" height="30" onClick={()=>{
+            this.setState({ ...this.state, isAdding: !this.state.isAdding })
+          }} />
+        );
+      }
       return (
         <div style={{display: "flex", flexDirection: "column", minHeight: "100vh"}}>
           <Header title="TODD Settings" componentLeft={backComponent}  componentRight={settingsComponent} />
           <div style={{ margin: "auto", flex: "5 100%"}}>
-              <input
-                type="text"
-                ref="titleInput"
-                placeholder="Title for Service"
-              />
-              <input
-                type="text"
-                ref="featureCodeInput"
-                placeholder="Feature Code"
-              />
-              <button onClick={()=>{
-                //TODO do i have data
-                const title = this.refs.titleInput.value.trim();
-                const featureCode = this.refs.featureCodeInput.value.trim();
-
-
-                Meteor.call('services.insert', title, featureCode);
-
-                // Clear form
-                this.refs.titleInput.value = '';
-                this.refs.featureCodeInput.value = '';
-
-                console.log('submitting new form')
-              }}>Save</button>
-
             <ul>
               {this.renderServices()}
             </ul>
+            {addComponent}
           </div>
           <Footer />
         </div>
       );
     } else {
-
-
       return (
         <div style={{display: "flex", flexDirection: "column", minHeight: "100vh"}}>
-          <Header title="TODD" componentRight={settingsComponent}/>
-          <div style={{ margin: "auto", flex: "5 100%"}}>App is here </div>
+          <Header title={"TODD - "+moment().format('MMM D, YYYY')} componentRight={settingsComponent}/>
+          <div style={{ margin: "auto", flex: "5 100%"}}>
+            <button onClick={()=>{
+              const x = HMIS.find({hmisId: 5}).fetch();
+              console.log('>>>>', x);
+              if (x.length === 0){
+                // add one
+                const h = {};
+                h.hmisId = 5;
+                h.firstname = 'Lena';
+                h.middleInitial = 'K';
+                h.lastname = 'Smith';
+                h.dob= new Date();
+                h.race='b';
+                h.gender ='F';
+                h.firstVisit = new Date();
+                Meteor.call('hmis.insert', h);
+                console.log('inserted')
+              } else {
+                const h = { ...x[0] };
+                h.race='w';
+                Meteor.call('hmis.update', x[0]._id, h);
+                console.log('updated')
+              }
+
+            }} >find hmis</button>
+            <button onClick={()=>{
+              const x = HMIS.find({}).fetch();
+              console.log('^^^^', x)
+
+            }} >list hmis</button>
+            <button onClick={()=>{
+              const x = HMIS.find({}).fetch();
+              x.map((h)=>{
+                Meteor.call('hmis.remove', h._id);
+
+              })
+              console.log('all removed');
+            }} >remove All hmis</button>
+          </div>
           <Footer />
         </div>
-      );    }
-
-
+      );
+    }
   }
 }
 App.propTypes = {
@@ -97,6 +148,6 @@ App.propTypes = {
 
 export default createContainer(() => {
   return {
-    services: Services.find({}).fetch(),
+    services: Services.find({}, { sort: { title: 0 } }).fetch(),
   };
 }, App);

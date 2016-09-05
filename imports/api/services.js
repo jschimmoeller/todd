@@ -8,7 +8,6 @@ export const Services = new Mongo.Collection('services');
 
 Meteor.methods({
  'services.insert'(title, featureCode) {
-   console.log()
    check(title, String);
    check(featureCode, String);
 
