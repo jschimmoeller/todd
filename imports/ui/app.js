@@ -154,6 +154,14 @@ class App extends Component {
         //console.log('services ');
         return(
           <div style={{ margin: "auto", flex: "5 100%"}}>
+            <div>
+              <div>HMIS Info</div>
+              <div>
+                <div>Name: {this.state.hmis.firstname + ' ' + this.state.hmis.middleInitial + ' ' + this.state.hmis.lastname}</div>
+                <div>Gender: {this.state.hmis.gender}</div>
+                <div>Race: {this.state.hmis.race}</div>
+              </div>
+            </div>
             <ul>
             {this.props.services.map((s)=>{
               if (this.state.hmisServices.filter((cs)=>{
