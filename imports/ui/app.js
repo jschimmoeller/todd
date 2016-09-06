@@ -146,7 +146,7 @@ class App extends Component {
             <div>
               <div>HMIS Info</div>
               <div>
-                <div>Name: {this.state.hmis.firstname + ' ' + this.state.hmis.middleInitial + ' ' + this.state.hmis.lastname}</div>
+                <div>Name: {this.state.hmis.firstname + ' ' + (this.state.hmis.middleInitial ? (this.state.hmis.middleInitial + ' ') : '') +  this.state.hmis.lastname}</div>
                 <div>Gender: {this.state.hmis.gender}</div>
                 <div>Race: {this.state.hmis.race}</div>
               </div>
