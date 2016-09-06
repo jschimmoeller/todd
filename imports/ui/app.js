@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import moment from 'moment';
@@ -98,7 +99,8 @@ class App extends Component {
       <span>
         <button onClick={()=>{
           const x = HMIS.find({hmisId: Number(this.refs.hmisId.value)}).fetch();
-          console.log('>>>>', this.refs, this.refs.hmisId.value,  x);
+
+          //console.log('>>>>', this.refs, this.refs.hmisId.value,  x);
           if (x.length === 0){
             // add one
             // const h = {};
@@ -112,17 +114,27 @@ class App extends Component {
             // h.firstVisit = new Date();
             // Meteor.call('hmis.insert', h);
             console.log('Not Found')
-            this.setState({ ...this.state,  status: "showNotFound", hmisId: undefined});
+            this.setState({ ...this.state,  status: "showNotFound",  hmis: undefined, hmisId: undefined});
             this.refs.hmisId.value = '';
             this.refs.hmisId.focus();
           } else {
-            console.log('Found IT')
-            this.setState({ ...this.state,  status: "showServices", hmisId: Number(this.refs.hmisId.value)});
+            //console.log('Found IT')
+            Meteor.call('daily.findToday', x[0].hmisId, (e,data)=>{
+              //console.log('FT:', data, [].concat(data.services));
+              if (data && data.services && data.services.length > 0) {
+                this.setState({ ...this.state,  status: "showServices", hmis: x[0], hmisServices: [].concat(data.services) });
+              } else {
+                // not found
+                this.setState({ ...this.state,  status: "showServices", hmis: x[0], hmisServices: [] });
+              }
+
+            })
+
           }
         }} >find hmis</button>
         <button onClick={()=>{
           const x = HMIS.find({}).fetch();
-          console.log('^^^^', x)
+          //console.log('^^^^', x)
         }} >list hmis</button>
       </span>
     );
@@ -131,29 +143,71 @@ class App extends Component {
   getBody(){
     switch(this.state.status){
       case 'showEntry':
-        console.log('entry');
+        //console.log('entry');
         return(
           <div style={{ margin: "auto", flex: "5 100%"}}>
-            <input ref="hmisId" defaultValue={this.state.hmisId} />
+            <input ref="hmisId" />
             {this.renderTempButtons()}
           </div>
         );
       case 'showServices':
-        console.log('services ');
+        //console.log('services ');
         return(
           <div style={{ margin: "auto", flex: "5 100%"}}>
-            <div>services here </div>
+            <ul>
+            {this.props.services.map((s)=>{
+              if (this.state.hmisServices.filter((cs)=>{
+                return cs._id === s._id;
+              }).length >0){
+                // checked
+                //console.log('checked:', s.title);
+                return (
+                  <li key={s._id}>
+                    <label><input type="checkbox" ref={"cb_"+s.title} defaultChecked="checked" />{s.title}</label>
+                  </li>
+                );
+              } else {
+                // nto checked
+                //console.log('NOT checked:', s.title);
+                return (
+                  <li key={s._id}>
+                    <label><input type="checkbox" ref={"cb_"+s.title} />{s.title}</label>
+                  </li>
+                );
+              }
+
+            })}
+            </ul>
             <button onClick={()=>{
-              this.setState({ ...this.state, status: 'showEntry', hmisId: undefined })
+              this.setState({ ...this.state, status: 'showEntry', hmis: undefined, hmisId: undefined })
             }}>Cancel</button>
             <button onClick={()=>{
-              console.log('TODO save services ');
-              this.setState({ ...this.state, status: 'showEntry', hmisId: undefined })
+              //console.log('TODO save services ', this.refs);
+              const usedServices = Object.keys(this.refs).filter((rf)=>{
+                if (rf.indexOf('cb_') > -1){
+                  //console.log('service is: ', rf.substring(3), this.refs[rf].checked );
+                  return this.refs[rf].checked;
+                }
+              }).map((zUsed)=>{
+                //console.log(zUsed, zUsed.substring(3))
+                return this.props.services.filter((s)=>{
+                  return s.title === zUsed.substring(3);
+                })[0];
+
+              });
+              //console.log('USED: ', usedServices);
+              if (usedServices.length > 0){
+                Meteor.call('daily.save', this.state.hmis, usedServices );
+                this.setState({ ...this.state, status: 'showEntry', hmis: undefined, hmisId: undefined })
+              } else {
+                alert('Must have one service selected ')
+              }
+
             }}>Save</button>
           </div>
         );
       case 'showNotFound':
-        console.log('showing not found ');
+        //console.log('showing not found ');
         return(
           <div style={{ margin: "auto", flex: "5 100%"}}>
             <input ref="hmisId" />
@@ -188,12 +242,12 @@ class App extends Component {
   }
 
   render(){
-    console.log('>>> RENDERING: ', this.state);
+    //console.log('>>> RENDERING: ', this.state);
 
     // always need settings component
     const settingsComponent = <img src='./settings.png' width="25px" height="25px" onClick={()=>{
       if (this.state.status === "showSettings"){
-        this.setState({ ...this.state, status: 'showEntry', editItem: undefined, isAdding: false });
+        this.setState({ ...this.state, status: 'showEntry',  hmis: undefined, editItem: undefined, isAdding: false });
       } else {
         this.setState({ ...this.state, status: "showSettings"});
       }
@@ -210,7 +264,7 @@ class App extends Component {
       case 'showSettings':
         const backComponent = (<img src='./arrowleft.png' width="25px" height="25px" onClick={()=>{
           //console.log('back');
-          this.setState({ ...this.state, status: 'showEntry', editItem: undefined, isAdding: false });
+          this.setState({ ...this.state, status: 'showEntry',  hmis: undefined, editItem: undefined, isAdding: false });
         }}/>);
         HeaderComponent = (<Header title="TODD Settings" componentLeft={backComponent}  componentRight={settingsComponent} />);
         break;

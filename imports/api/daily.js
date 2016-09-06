@@ -6,8 +6,9 @@ import { check, Match } from 'meteor/check';
 export const Daily = new Mongo.Collection('daily');
 
 Meteor.methods({
- 'daily.insert'(hmis, services ) {
+ 'daily.save'(hmis, services ) {
    //TODO fix validation
+   //console.log('....', hmis, services);
 
    let today = new Date();
    today.setHours(0);
@@ -24,8 +25,10 @@ Meteor.methods({
      $lt: tomorrow
    }, "hmis.hmisId": hmis.hmisId }).fetch();
    if (x.length > 0){
+     //console.log('update daily ')
      Daily.update(x[0]._id, { $set: { hmis, services, modifiedAt: new Date() } });
    } else {
+     //console.log('inserting daily')
      Daily.insert({
        hmis,
        services,
@@ -40,12 +43,6 @@ Meteor.methods({
    check(id, String);
 
    Daily.remove(id);
- },
- 'daily.update'(id, hmis, services) {
-   check(id, String);
-   //TODO fix validation
-
-   Daily.update(id, { $set: { hmis, services, modifiedAt: new Date() } });
  },
  'daily.findToday'(hmisId) {
    check(hmisId, Number);
