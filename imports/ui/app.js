@@ -64,7 +64,10 @@ class App extends Component {
     })
     console.log('all removed');
   }} >remove All hmis</button>
-
+  <button onClick={()=>{
+    const x = HMIS.find({}).fetch();
+    //console.log('^^^^', x)
+  }} >list hmis</button>
         <br />
         <button onClick={()=>{
           const x = HMIS.find({}).fetch();
@@ -132,10 +135,7 @@ class App extends Component {
 
           }
         }} >find hmis</button>
-        <button onClick={()=>{
-          const x = HMIS.find({}).fetch();
-          //console.log('^^^^', x)
-        }} >list hmis</button>
+
       </span>
     );
   }
