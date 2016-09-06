@@ -105,18 +105,7 @@ class App extends Component {
 
           //console.log('>>>>', this.refs, this.refs.hmisId.value,  x);
           if (x.length === 0){
-            // add one
-            // const h = {};
-            // h.hmisId = Number(this.refs.hmisId.value);
-            // h.firstname = 'Lena';
-            // h.middleInitial = 'K';
-            // h.lastname = 'Smith';
-            // h.dob= new Date();
-            // h.race='b';
-            // h.gender ='F';
-            // h.firstVisit = new Date();
-            // Meteor.call('hmis.insert', h);
-            console.log('Not Found')
+            //console.log('Not Found')
             this.setState({ ...this.state,  status: "showNotFound",  hmis: undefined, hmisId: undefined});
             this.refs.hmisId.value = '';
             this.refs.hmisId.focus();
@@ -190,7 +179,6 @@ class App extends Component {
               this.setState({ ...this.state, status: 'showEntry', hmis: undefined, hmisId: undefined })
             }}>Cancel</button>
             <button onClick={()=>{
-              //console.log('TODO save services ', this.refs);
               const usedServices = Object.keys(this.refs).filter((rf)=>{
                 if (rf.indexOf('cb_') > -1){
                   //console.log('service is: ', rf.substring(3), this.refs[rf].checked );
