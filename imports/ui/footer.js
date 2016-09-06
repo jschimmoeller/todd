@@ -6,8 +6,7 @@ class Footer extends Component {
     const count = 'Served Today: ' + this.props.hmisCount;
     return (
       <div style={{ display: 'flex', direction: "row",  height: "50px", margin: "auto" }}>
-        <div style={{margin: "auto"}}>Footer</div>
-        <div style={{margin: "auto", right: "10px", bottom: "18px", position: "absolute"}}>
+        <div style={{margin: "auto"}}>
           {count}
         </div>
       </div>
