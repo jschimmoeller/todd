@@ -12,7 +12,12 @@ Meteor.startup(() => {
   const testLoad = HMIS.find({hmisId: 5}).fetch();
   //console.log('testLoad: ', testLoad);
   if (testLoad.length === 0){
+    HMIS.insert({hmisId: 1, firstname: 'Brian', lastname: 'Lima', race: 'w', gender: 'M'});
+    HMIS.insert({hmisId: 2, firstname: 'Cory', lastname: 'Delphos', race: 'w', gender: 'M'});
+    HMIS.insert({hmisId: 3, firstname: 'Gerald', lastname: 'Ottoville', race: 'w', gender: 'M'});
+    HMIS.insert({hmisId: 4, firstname: 'Beth', lastname: 'Garrison', race: 'w', gender: 'F'});
     HMIS.insert({hmisId: 5, firstname: 'Lena', middleInitial: 'K', lastname: 'Smith', race: 'b', gender: 'F'});
+    HMIS.insert({hmisId: 6, firstname: 'John', lastname: 'Smith', race: 'w', gender: 'M'});
   }
   const testServices = Services.find({}).fetch();
   if (testServices.length === 0 ){
