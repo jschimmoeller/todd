@@ -12,6 +12,7 @@ import Footer from './footer';
 import Header from './header';
 import ServiceItem from './serviceItem';
 import ServiceItemEdit from './serviceItemEdit';
+import { AddBorderIconSVG, SettingsIconSVG, BackIconSVG } from './svgs';
 
 // App component - represents the whole app
 class App extends Component {
@@ -217,9 +218,11 @@ class App extends Component {
           addComponent = (<ServiceItemEdit cbSave={this.handleSave} />);
         } else {
           addComponent = (
-            <img src='/add.png' width="30" height="30" onClick={()=>{
+            <div onClick={()=>{
               this.setState({ ...this.state, isAdding: !this.state.isAdding })
-            }} />
+            }} >
+              <AddBorderIconSVG title="add" description="add" svgStyle={{width: "24px", height: "24px"}} />
+            </div>
           );
         }
         return (
@@ -241,13 +244,17 @@ class App extends Component {
     //console.log('>>> RENDERING: ', this.state);
 
     // always need settings component
-    const settingsComponent = <img src='./settings.png' width="25px" height="25px" onClick={()=>{
-      if (this.state.status === "showSettings"){
-        this.setState({ ...this.state, status: 'showEntry',  hmis: undefined, editItem: undefined, isAdding: false });
-      } else {
-        this.setState({ ...this.state, status: "showSettings"});
-      }
-    }}/>;
+    const settingsComponent = (
+      <div onClick={()=>{
+        if (this.state.status === "showSettings"){
+          this.setState({ ...this.state, status: 'showEntry',  hmis: undefined, editItem: undefined, isAdding: false });
+        } else {
+          this.setState({ ...this.state, status: "showSettings"});
+        }
+      }}>
+        <SettingsIconSVG title="settings" description="settings" svgStyle={{width: "25px", height: "25px"}}/>
+      </div>
+    );
 
     //compute headerComponent
     let HeaderComponent;
@@ -258,10 +265,14 @@ class App extends Component {
         HeaderComponent = (<Header title={"TODD - "+moment().format('MMM D, YYYY')} componentRight={settingsComponent}/>);
         break;
       case 'showSettings':
-        const backComponent = (<img src='./arrowleft.png' width="25px" height="25px" onClick={()=>{
-          //console.log('back');
-          this.setState({ ...this.state, status: 'showEntry',  hmis: undefined, editItem: undefined, isAdding: false });
-        }}/>);
+        const backComponent = (
+          <div onClick={()=>{
+            //console.log('back');
+            this.setState({ ...this.state, status: 'showEntry',  hmis: undefined, editItem: undefined, isAdding: false });
+          }}>
+            <BackIconSVG title="back" description="back" svgStyle={{width: "25px", height: "25px"}} />
+          </div>
+        );
         HeaderComponent = (<Header title="TODD Settings" componentLeft={backComponent}  componentRight={settingsComponent} />);
         break;
       default:

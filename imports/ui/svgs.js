@@ -123,6 +123,125 @@ class SettingsIconSVG extends React.Component {
   }
 }
 
+// Edit icon : use when making content editable
+class EditIconSVG extends React.Component {
+
+  render() {
+    return (
+      <ContainerIconSVG svgStyle={this.props.svgStyle}>
+        <title>{this.props.title}</title>
+        <desc>{this.props.description}</desc>
+         <path d="M14.59 10.34L17.41 7.51C19.53 5.4 22.46 5.49 24.49 7.51 26.51 9.54 26.6 12.47 24.49 14.59L21.66 17.41 16 23.07C15.86 23.21 15.68 23.31 15.49 23.34L8.42 24.76C7.72 24.9 7.1 24.28 7.24 23.58L8.66 16.51C8.69 16.32 8.79 16.14 8.93 16L14.59 10.34ZM16 11.76L10.34 17.41 9.49 22.55 14.59 21.66 20.24 16 23.07 13.17C24.38 11.86 24.33 10.19 23.07 8.93 21.81 7.67 20.14 7.62 18.83 8.93L16 11.76ZM16 11.76"/>
+         <path d="M13.86 12.48L19.52 18.14 20.94 16.72 15.28 11.06 13.86 12.48ZM13.86 12.48"/>
+         <path d="M9.61 16.73L15.27 22.39 16.69 20.97 11.03 15.31 9.61 16.73ZM9.61 16.73"/>
+         <path d="M16.71 9.63L22.37 15.29 23.79 13.87 18.13 8.21 16.71 9.63ZM16.71 9.63"/>
+     </ContainerIconSVG>
+    );
+  }
+}
+
+// Edit with border icon : use when making content editable
+class EditBorderIconSVG extends React.Component {
+
+  render() {
+    return (
+      <ContainerIconSVG svgStyle={this.props.svgStyle}>
+        <title>{this.props.title}</title>
+        <desc>{this.props.description}</desc>
+         <path d="M14.59 10.34L17.41 7.51C19.53 5.4 22.46 5.49 24.49 7.51 26.51 9.54 26.6 12.47 24.49 14.59L21.66 17.41 16 23.07C15.86 23.21 15.68 23.31 15.49 23.34L8.42 24.76C7.72 24.9 7.1 24.28 7.24 23.58L8.66 16.51C8.69 16.32 8.79 16.14 8.93 16L14.59 10.34ZM16 11.76L10.34 17.41 9.49 22.55 14.59 21.66 20.24 16 23.07 13.17C24.38 11.86 24.33 10.19 23.07 8.93 21.81 7.67 20.14 7.62 18.83 8.93L16 11.76ZM16 11.76"/>
+         <path d="M13.86 12.48L19.52 18.14 20.94 16.72 15.28 11.06 13.86 12.48ZM13.86 12.48"/>
+         <path d="M9.61 16.73L15.27 22.39 16.69 20.97 11.03 15.31 9.61 16.73ZM9.61 16.73"/>
+         <path d="M16.71 9.63L22.37 15.29 23.79 13.87 18.13 8.21 16.71 9.63ZM16.71 9.63"/>
+         <path d="M32 16C32 24.84 24.84 32 16 32 7.16 32 0 24.84 0 16 0 7.16 7.16 0 16 0 24.84 0 32 7.16 32 16L30 16C30 8.27 23.73 2 16 2 8.27 2 2 8.27 2 16 2 23.73 8.27 30 16 30 23.73 30 30 23.73 30 16L32 16ZM32 16"/>
+     </ContainerIconSVG>
+    );
+  }
+}
+// Add icon : use when adding content
+class AddIconSVG extends React.Component {
+
+  render() {
+    return (
+      <ContainerIconSVG svgStyle={this.props.svgStyle}>
+        <title>{this.props.title}</title>
+        <desc>{this.props.description}</desc>
+          <path d="M 15,15 L 9,15 C 8.44,15 8,15.45 8,16 8,16.56 8.45,17 9,17 L 15,17 15,23 C 15,23.56 15.45,24 16,24 16.56,24 17,23.55 17,23 L 17,17 23,17 C 23.56,17 24,16.55 24,16 24,15.44 23.55,15 23,15 L 17,15 17,9 C 17,8.44 16.55,8 16,8 15.44,8 15,8.45 15,9 L 15,15 15,15 Z M 15,15" />      </ContainerIconSVG>
+    );
+  }
+}
+
+// Add with border icon : use when adding content
+class AddBorderIconSVG extends React.Component {
+
+  render() {
+    return (
+      <ContainerIconSVG svgStyle={this.props.svgStyle}>
+        <title>{this.props.title}</title>
+        <desc>{this.props.description}</desc>
+          <path d="M 32,16 C 32,24.84 24.84,32 16,32 7.16,32 0,24.84 0,16 0,7.16 7.16,-0 16,-0 24.84,0 32,7.16 32,16 L 30,16 C 30,8.27 23.73,2 16,2 8.27,2 2,8.27 2,16 2,23.73 8.27,30 16,30 23.73,30 30,23.73 30,16 L 32,16 Z M 32,16" />
+          <path d="M 15,15 L 9,15 C 8.44,15 8,15.45 8,16 8,16.56 8.45,17 9,17 L 15,17 15,23 C 15,23.56 15.45,24 16,24 16.56,24 17,23.55 17,23 L 17,17 23,17 C 23.56,17 24,16.55 24,16 24,15.44 23.55,15 23,15 L 17,15 17,9 C 17,8.44 16.55,8 16,8 15.44,8 15,8.45 15,9 L 15,15 15,15 Z M 15,15" />      </ContainerIconSVG>
+    );
+  }
+}
+
+// Carrot down left icon : used to display incoming content
+class CaretDownIconSVG extends React.Component {
+
+  render() {
+    return (
+      <ContainerIconSVG svgStyle={this.props.svgStyle}>
+        <title>{this.props.title}</title>
+        <desc>{this.props.description}</desc>
+          <path d="M 9,12.5 C 8.55,12.5 8.33,13.04 8.65,13.35 L 15.72,20.42 C 15.91,20.62 16.23,20.62 16.42,20.42 L 23.5,13.35 C 23.81,13.04 23.59,12.5 23.14,12.5 L 16.07,12.5 9,12.5 Z M 9,12.5" />
+      </ContainerIconSVG>
+    );
+  }
+}
+
+// Carrot down left icon : used to display incoming content
+class CaretUpIconSVG extends React.Component {
+
+  render() {
+    return (
+      <ContainerIconSVG svgStyle={this.props.svgStyle}>
+        <title>{this.props.title}</title>
+        <desc>{this.props.description}</desc>
+          <path d="M 23.14,18.57 C 23.59,18.57 23.81,18.03 23.5,17.72 L 16.42,10.65 C 16.23,10.45 15.91,10.45 15.72,10.65 L 8.65,17.72 C 8.33,18.03 8.55,18.57 9,18.57 L 16.07,18.57 23.14,18.57 Z M 23.14,18.57" />
+      </ContainerIconSVG>
+    );
+  }
+}
+// Help icon : used to visualize help
+class HelpIconSVG extends React.Component {
+
+  render() {
+    return (
+      <ContainerIconSVG svgStyle={this.props.svgStyle}>
+        <title>{this.props.title}</title>
+        <desc>{this.props.description}</desc>
+          <path d="M 32,16 C 32,24.84 24.84,32 16,32 7.16,32 0,24.84 0,16 0,7.16 7.16,-0 16,-0 24.84,0 32,7.16 32,16 L 30,16 C 30,8.27 23.73,2 16,2 8.27,2 2,8.27 2,16 2,23.73 8.27,30 16,30 23.73,30 30,23.73 30,16 L 32,16 Z M 32,16" />
+          <path d="M 10.29,11 C 10.29,8.28 12.53,6 15.55,6 18.96,6 21.57,8.69 20.99,12.16 20.73,13.68 19.98,14.54 18.57,15.41 18.47,15.47 18.13,15.67 18.13,15.67 17.24,16.21 17.02,16.46 17.02,17 17.02,18.58 17.02,18.58 17.02,19 17.02,19.55 16.58,20 16.02,20 15.47,20 15.02,19.55 15.02,19 15.02,18.58 15.02,18.58 15.02,17 15.02,15.57 15.66,14.83 17.09,13.96 17.09,13.96 17.43,13.76 17.52,13.7 18.49,13.11 18.87,12.67 19.01,11.84 19.38,9.65 17.78,8 15.55,8 13.64,8 12.29,9.38 12.29,11 12.29,11.55 11.84,12 11.29,12 10.74,12 10.29,11.55 10.29,11 Z M 10.29,11" />
+          <circle cx="16" cy="24" r="2" />
+      </ContainerIconSVG>
+    );
+  }
+}
+
+// Search icon : use when filtering or searching
+class SearchIconSVG extends React.Component {
+
+  render() {
+    return (
+      <ContainerIconSVG svgStyle={this.props.svgStyle}>
+        <title>{this.props.title}</title>
+        <desc>{this.props.description}</desc>
+          <path d="M 2.31,28.28 C 1.92,28.67 1.92,29.3 2.31,29.69 L 2.31,29.69 C 2.7,30.08 3.33,30.08 3.72,29.69 L 10.79,22.62 C 11.18,22.23 11.18,21.6 10.79,21.21 L 10.79,21.21 C 10.4,20.82 9.77,20.82 9.38,21.21 L 2.31,28.28 Z M 2.31,28.28" />
+          <path d="M 31,12 C 31,18.08 26.08,23 20,23 13.92,23 9,18.08 9,12 9,5.92 13.92,1 20,1 26.08,1 31,5.92 31,12 L 29,12 C 29,7.03 24.97,3 20,3 15.03,3 11,7.03 11,12 11,16.97 15.03,21 20,21 24.97,21 29,16.97 29,12 L 31,12 Z M 31,12" />
+      </ContainerIconSVG>
+    );
+  }
+}
+
 export {
   ArrowDownIconSVG,
   ArrowUpIconSVG,
@@ -132,4 +251,12 @@ export {
   CloseBorderIconSVG,
   ContactsIconSVG,
   SettingsIconSVG,
+    AddIconSVG,
+  AddBorderIconSVG,
+  EditIconSVG,
+  EditBorderIconSVG,
+  CaretDownIconSVG,
+  CaretUpIconSVG,
+  HelpIconSVG,
+  SearchIconSVG,
 };
