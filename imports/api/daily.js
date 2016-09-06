@@ -7,7 +7,6 @@ export const Daily = new Mongo.Collection('daily');
 
 Meteor.methods({
  'daily.save'(hmis, services ) {
-   console.log('>>>>', hmis);
    check(hmis, Object);
    check(services, [Object])
 
