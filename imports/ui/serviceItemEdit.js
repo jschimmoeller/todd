@@ -6,20 +6,21 @@ class ServiceItemEdit extends Component {
     this.handleSave = this.handleSave.bind(this);
   }
   handleSave(){
-    //TODO do i have data
     const title = this.refs.titleInput.value.trim();
     const featureCode = this.refs.featureCodeInput.value.trim();
-
     const item = { ...this.props.item, title, featureCode };
-    this.props.cbSave(item);
-
-    if (!this.props.item){
-      // Clear form
-      this.refs.titleInput.value = '';
-      this.refs.featureCodeInput.value = '';
+    
+    if (item.hasOwnProperty('title') && item.title.length > 0 &&
+        item.hasOwnProperty('featureCode') && item.featureCode.length > 0){
+      this.props.cbSave(item);
+      if (!this.props.item){
+        // Clear form - needed for entry only
+        this.refs.titleInput.value = '';
+        this.refs.featureCodeInput.value = '';
+      }
     }
-
   }
+
   render(){
     return (
       <div>
