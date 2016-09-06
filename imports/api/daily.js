@@ -7,16 +7,8 @@ export const Daily = new Mongo.Collection('daily');
 
 Meteor.methods({
  'daily.save'(hmis, services ) {
-   check(hmis, {_id: String, hmisId: Number, firstname: String, middleInitial: Match.Maybe(String),
-     lastname: String, race: Match.Where(function(r){
-       if (r && r.trim().length > -1 ){
-          return ['w', 'b','h'].indexOf(r.trim()) > -1
-       } else {
-         return true;
-       }
-     }), gender: Match.OneOf('M', 'F'),
-     dob: Match.Maybe(Date), firstVisit: Match.Maybe(Date),
-   createdAt: Date, modifiedAt: Date });
+   console.log('>>>>', hmis);
+   check(hmis, Object);
    check(services, [Object])
 
    let today = new Date();
