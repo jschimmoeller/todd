@@ -24,7 +24,7 @@ class DailyEntry extends Component {
     });
     Meteor.call('daily.findToday', Number(this.props.params.hmisId), (e, data)=>{
       //console.log('>>>', e, data);
-      this.setState({ ...this.state, hmisServices: data.services});
+      this.setState({ ...this.state, hmisServices: data && data.services ? data.services : [] });
     });
   }
 
