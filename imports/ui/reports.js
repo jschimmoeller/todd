@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
+import Calendar from 'react-input-calendar'
+
 
 // App component - represents the whole app
 class Reports extends Component {
@@ -9,7 +11,10 @@ class Reports extends Component {
 
   render(){
     return (
-      <div>reports</div>
+      <div>
+        <div>reports</div>
+        <Calendar format='DD/MM/YYYY' />
+      </div>
     )
   }
 }
