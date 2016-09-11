@@ -1,6 +1,17 @@
 import React from 'react';
 import { ContainerIconSVG } from './svg-container';
 
+class CalendarIconSVG extends React.Component{
+  render(){
+    return (
+      <ContainerIconSVG svgStyle={this.props.svgStyle}>
+        <title>{this.props.title}</title>
+        <desc>{this.props.description}</desc>
+        <path d="M10 12h4v4h-4zM16 12h4v4h-4zM22 12h4v4h-4zM4 24h4v4h-4zM10 24h4v4h-4zM16 24h4v4h-4zM10 18h4v4h-4zM16 18h4v4h-4zM22 18h4v4h-4zM4 18h4v4h-4zM26 0v2h-4v-2h-14v2h-4v-2h-4v32h30v-32h-4zM28 30h-26v-22h26v22z"></path>
+     </ContainerIconSVG>
+    );
+  }
+}
 // Arrow down icon : use to navigate down
 class ArrowDownIconSVG extends React.Component {
 
@@ -243,6 +254,7 @@ class SearchIconSVG extends React.Component {
 }
 
 export {
+  CalendarIconSVG,
   ArrowDownIconSVG,
   ArrowUpIconSVG,
   BackIconSVG,
@@ -251,7 +263,7 @@ export {
   CloseBorderIconSVG,
   ContactsIconSVG,
   SettingsIconSVG,
-    AddIconSVG,
+  AddIconSVG,
   AddBorderIconSVG,
   EditIconSVG,
   EditBorderIconSVG,

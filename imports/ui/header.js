@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import { CalendarIconSVG } from './svgs';
 
 // App component - represents the whole app
 export default class Header extends Component {
@@ -10,7 +11,7 @@ export default class Header extends Component {
           {this.props.componentLeft}
         </div>
         <div style={{margin: "auto"}}>
-          <Link to="/reports">{this.props.title}</Link>
+          <Link to="/reports"><CalendarIconSVG />{this.props.title}</Link>
         </div>
         <div style={{margin: "auto", right: "10px", top: "8px", position: "absolute"}}>
           {this.props.componentRight}
