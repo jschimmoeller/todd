@@ -23,11 +23,11 @@ class FindHmis extends Component {
 
             //console.log('>>>>', this.refs, this.refs.hmisId.value,  x);
             if (x.length === 0){
-              console.log('Not Found')
+              //console.log('Not Found')
               this.refs.hmisId.value = '';
               this.refs.hmisId.focus();
             } else {
-              console.log('Found IT');
+              //console.log('Found IT');
               browserHistory.push('/daily/'+this.refs.hmisId.value);
             }
           }} >find hmis</button>
