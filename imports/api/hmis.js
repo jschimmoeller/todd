@@ -28,6 +28,11 @@ Meteor.methods({
 
    HMIS.remove(id);
  },
+ 'hmis.find'(hmisId) {
+   check(hmisId, Number);
+
+   return HMIS.find({ hmisId: hmisId }).fetch()[0];
+ },
  'hmis.update'(id, record) {
    check(id, String);
    delete record._id;

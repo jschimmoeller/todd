@@ -1,297 +1,66 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
+
 import { createContainer } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import moment from 'moment';
 
-import { Services } from '../api/services';
-import { HMIS } from '../api/hmis';
 import { Daily } from '../api/daily';
 
 import Footer from './footer';
 import Header from './header';
-import ServiceItem from './serviceItem';
-import ServiceItemEdit from './serviceItemEdit';
 import { AddBorderIconSVG, SettingsIconSVG, BackIconSVG } from './svgs';
+import { browserHistory } from 'react-router'
+
 
 // App component - represents the whole app
 class App extends Component {
   constructor(props){
     super(props);
-
-    this.state = {isSettingsOpen: false, status: "showEntry" };
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
-    this.handleSave = this.handleSave.bind(this);
-    this.getBody = this.getBody.bind(this);
-    this.renderServices = this.renderServices.bind(this);
-  }
-
-  handleDelete(id){
-    Meteor.call('services.remove', id);
-  }
-  handleEdit(id){
-    this.setState({ ...this.state, editItem: id });
-    //console.log("editing", id);
-  }
-  handleSave(item){
-    //console.log('saving item: ', item);
-    if (item.hasOwnProperty('_id')){
-      Meteor.call('services.update', item._id, item.title, item.featureCode );
-    } else {
-      Meteor.call('services.insert', item.title, item.featureCode );
-    }
-    this.setState({ ...this.state, status: 'showSettings', editItem: undefined, isAdding: false });
-  }
-
-  renderServices(){
-    return this.props.services.map((s)=>{
-      return (
-        <ServiceItem key={s._id} item={s}
-          isOpen={s._id === this.state.editItem }
-          cbEdit={this.handleEdit}
-          cbDelete={this.handleDelete}
-          cbSave={this.handleSave} />
-      );
-    });
-  }
-
-  //TODO remove
-  /* <button onClick={()=>{
-    const x = HMIS.find({}).fetch();
-    x.map((h)=>{
-      Meteor.call('hmis.remove', h._id);
-
-    })
-    console.log('all removed');
-  }} >remove All hmis</button>
-  <button onClick={()=>{
-    const x = HMIS.find({}).fetch();
-    //console.log('^^^^', x)
-  }} >list hmis</button>
-        <br />
-        <button onClick={()=>{
-          const x = HMIS.find({}).fetch();
-          x.map((h)=>{
-            //console.log('hhhhh', h._id);
-            const services = Services.find({}).fetch();
-            Meteor.call('daily.insert', h, services);
-
-          });
-        }} >add service </button>
-        <button onClick={()=>{
-          const x = Daily.find({}).fetch();
-          console.log('daily: ', x );
-        }} >list daily </button>
-        <button onClick={()=>{
-          Meteor.call('daily.findToday', 5, function(error, data){
-            console.log('FINDING Daily  : ', error, data );
-          });
-
-        }} >Find daily </button>
-        <button onClick={()=>{
-          const x = Daily.find({}).fetch();
-          x.map((d)=>{
-            Meteor.call('daily.remove', d._id);
-          })
-          console.log('removed all Daily entries');
-        }} >remove ALL daily </button>
-
-  */
-  renderTempButtons(){
-    return (
-      <span>
-        <button onClick={()=>{
-          const x = HMIS.find({hmisId: Number(this.refs.hmisId.value)}).fetch();
-
-          //console.log('>>>>', this.refs, this.refs.hmisId.value,  x);
-          if (x.length === 0){
-            //console.log('Not Found')
-            this.setState({ ...this.state,  status: "showNotFound",  hmis: undefined, hmisId: undefined});
-            this.refs.hmisId.value = '';
-            this.refs.hmisId.focus();
-          } else {
-            //console.log('Found IT')
-            Meteor.call('daily.findToday', x[0].hmisId, (e,data)=>{
-              //console.log('FT:', data, [].concat(data.services));
-              if (data && data.services && data.services.length > 0) {
-                this.setState({ ...this.state,  status: "showServices", hmis: x[0], hmisServices: [].concat(data.services) });
-              } else {
-                // not found
-                this.setState({ ...this.state,  status: "showServices", hmis: x[0], hmisServices: [] });
-              }
-
-            })
-
-          }
-        }} >find hmis</button>
-
-      </span>
-    );
-  }
-
-  getBody(){
-    switch(this.state.status){
-      case 'showEntry':
-        //console.log('entry');
-        return(
-          <div style={{ margin: "auto", flex: "5 100%"}}>
-            <input ref="hmisId" />
-            {this.renderTempButtons()}
-          </div>
-        );
-      case 'showServices':
-        //console.log('services ');
-        return(
-          <div style={{ margin: "auto", flex: "5 100%"}}>
-            <div>
-              <div>HMIS Info</div>
-              <div>
-                <div>Name: {this.state.hmis.firstname + ' ' + (this.state.hmis.middleInitial ? (this.state.hmis.middleInitial + ' ') : '') +  this.state.hmis.lastname}</div>
-                <div>Gender: {this.state.hmis.gender}</div>
-                <div>Race: {this.state.hmis.race}</div>
-              </div>
-            </div>
-            <ul>
-            {this.props.services.map((s)=>{
-              if (this.state.hmisServices.filter((cs)=>{
-                return cs._id === s._id;
-              }).length >0){
-                // checked
-                //console.log('checked:', s.title);
-                return (
-                  <li key={s._id}>
-                    <label><input type="checkbox" ref={"cb_"+s.title} defaultChecked="checked" />{s.title}</label>
-                  </li>
-                );
-              } else {
-                // nto checked
-                //console.log('NOT checked:', s.title);
-                return (
-                  <li key={s._id}>
-                    <label><input type="checkbox" ref={"cb_"+s.title} />{s.title}</label>
-                  </li>
-                );
-              }
-
-            })}
-            </ul>
-            <button onClick={()=>{
-              this.setState({ ...this.state, status: 'showEntry', hmis: undefined, hmisId: undefined })
-            }}>Cancel</button>
-            <button onClick={()=>{
-              const usedServices = Object.keys(this.refs).filter((rf)=>{
-                if (rf.indexOf('cb_') > -1){
-                  //console.log('service is: ', rf.substring(3), this.refs[rf].checked );
-                  return this.refs[rf].checked;
-                }
-              }).map((zUsed)=>{
-                //console.log(zUsed, zUsed.substring(3))
-                return this.props.services.filter((s)=>{
-                  return s.title === zUsed.substring(3);
-                })[0];
-
-              });
-              //console.log('USED: ', usedServices);
-              if (usedServices.length > 0){
-                Meteor.call('daily.save', this.state.hmis, usedServices );
-                this.setState({ ...this.state, status: 'showEntry', hmis: undefined, hmisId: undefined })
-              } else {
-                alert('Must have one service selected ')
-              }
-
-            }}>Save</button>
-          </div>
-        );
-      case 'showNotFound':
-        //console.log('showing not found ');
-        return(
-          <div style={{ margin: "auto", flex: "5 100%"}}>
-            <input ref="hmisId" />
-            {this.renderTempButtons()}
-            <div>NOT Found</div>
-          </div>
-        );
-      case 'showSettings':
-        let addComponent;
-        if (this.state.isAdding){
-          addComponent = (<ServiceItemEdit cbSave={this.handleSave} />);
-        } else {
-          addComponent = (
-            <div onClick={()=>{
-              this.setState({ ...this.state, isAdding: !this.state.isAdding })
-            }} >
-              <AddBorderIconSVG title="add" description="add" svgStyle={{width: "24px", height: "24px"}} />
-            </div>
-          );
-        }
-        return (
-          <div style={{ margin: "auto", flex: "5 100%"}}>
-            <ul>
-              {this.renderServices()}
-            </ul>
-            {addComponent}
-          </div>
-        );
-
-      default:
-        console.log('NOT NOT NOT Found');
-        break;
-    }
   }
 
   render(){
-    //console.log('>>> RENDERING: ', this.state);
-
     // always need settings component
     const settingsComponent = (
       <div onClick={()=>{
-        if (this.state.status === "showSettings"){
-          this.setState({ ...this.state, status: 'showEntry',  hmis: undefined, editItem: undefined, isAdding: false });
+        //console.log('cccccllllick', location.href )
+        if (location.href.indexOf('settings') > -1){
+          browserHistory.push('/');
         } else {
-          this.setState({ ...this.state, status: "showSettings"});
+          browserHistory.push('/settings');
         }
+
       }}>
         <SettingsIconSVG title="settings" description="settings" svgStyle={{width: "25px", height: "25px"}}/>
       </div>
     );
+    let backComponent;
+    if (location.href.indexOf('settings') > -1 || location.href.indexOf('entry') > -1 || location.href.indexOf('reports') > -1  || location.href.indexOf('daily') > -1   ){
+      backComponent = (
+        <div onClick={()=>{
+          //console.log('cccccllllick', location.href )
+          browserHistory.push('/');
+        }}>
+          <BackIconSVG title="back" description="back" svgStyle={{width: "25px", height: "25px"}} />
+        </div>
+      );
+    }
 
     //compute headerComponent
-    let HeaderComponent;
-    switch(this.state.status){
-      case 'showEntry':
-      case 'showServices':
-      case 'showNotFound':
-        HeaderComponent = (<Header title={"TODD - "+moment().format('MMM D, YYYY')} componentRight={settingsComponent}/>);
-        break;
-      case 'showSettings':
-        const backComponent = (
-          <div onClick={()=>{
-            //console.log('back');
-            this.setState({ ...this.state, status: 'showEntry',  hmis: undefined, editItem: undefined, isAdding: false });
-          }}>
-            <BackIconSVG title="back" description="back" svgStyle={{width: "25px", height: "25px"}} />
-          </div>
-        );
-        HeaderComponent = (<Header title="TODD Settings" componentLeft={backComponent}  componentRight={settingsComponent} />);
-        break;
-      default:
-        console.log('NOT NOT NOT Found');
-        break;
-    }
+    let HeaderComponent = (<Header title={"TODD - "+moment().format('MMM D, YYYY')} componentLeft={backComponent} componentRight={settingsComponent}/>);
+
     // main return here
     return (
       <div style={{display: "flex", flexDirection: "column", minHeight: "100vh"}}>
         {HeaderComponent}
-        {this.getBody()}
+        <div style={{flex:1, margin: "auto"}} >
+          {this.props.children}
+        </div>
         <Footer hmisCount={this.props.hmisCount}/>
       </div>
     );
   }
 }
-App.propTypes = {
-  services: PropTypes.array.isRequired,
-};
 
 export default createContainer(() => {
   let today = new Date();
@@ -310,7 +79,6 @@ export default createContainer(() => {
   }}).fetch();
 
   return {
-    services: Services.find({}, { sort: { title: 0 } }).fetch(),
     hmisCount: hmisDaily.length,
   };
 }, App);

@@ -1,14 +1,17 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 
 // App component - represents the whole app
 export default class Header extends Component {
   render(){
     return (
-      <div style={{ display: 'flex', direction: "row",  height: "50px", margin: "auto" }}>
-      <div style={{margin: "auto", left: "10px", top: "8px", position: "absolute"}}>
-        {this.props.componentLeft}
-      </div>
-        <div style={{margin: "auto"}}>{this.props.title}</div>
+      <div style={{ display: 'flex', direction: "row",  height: "50px" }}>
+        <div style={{margin: "auto", left: "10px", top: "8px", position: "absolute"}}>
+          {this.props.componentLeft}
+        </div>
+        <div style={{margin: "auto"}}>
+          <Link to="/reports">{this.props.title}</Link>
+        </div>
         <div style={{margin: "auto", right: "10px", top: "8px", position: "absolute"}}>
           {this.props.componentRight}
         </div>
