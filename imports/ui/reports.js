@@ -21,6 +21,10 @@ class Reports extends Component {
         }}/>
         <button onClick={()=>{
           console.log('clicking retrieve', this.state.reportDate);
+          Meteor.call('daily.reportTotals', this.state.reportData, (e, data)=>{
+            console.log('>>>', e, data);
+            //this.setState({ ...this.state, hmis: data});
+          })
         }} >Retrieve</button>
       </div>
     )

@@ -86,4 +86,67 @@ Meteor.methods({
 
    return x.length();
  },
+'daily.reportTotals'(sDate) {
+
+  let today = new Date();
+  today.setHours(0);
+  today.setMinutes(0);
+  today.setSeconds(0);
+  let tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1 );
+  tomorrow.setHours(0);
+  tomorrow.setMinutes(0);
+  tomorrow.setSeconds(0);
+
+  const x =  Daily.find({ createdAt: {
+    $gte: today,
+    $lt: tomorrow
+  }}).fetch();
+  console.log('>>>>', x);
+
+  const reportData = {
+    reportDate: sDate,
+    hmisSummary:[],
+    raceSummary:{},
+    genderSummary:{},
+    servicesSummary: {}
+
+  };
+  x.forEach((d)=>{
+    const hmisFeatureCodes = d.services.map((s)=>{
+      if (reportData.servicesSummary[s.title]){
+        if(s.hasQuantity){
+          reportData.servicesSummary[s.title] = reportData.servicesSummary[s.title] + s.quantity;
+        } else {
+          reportData.servicesSummary[s.title] = reportData.servicesSummary[s.title] + 1;
+        }
+      } else {
+          if(s.hasQuantity){
+            reportData.servicesSummary[s.title] = s.quantity;
+          } else {
+            reportData.servicesSummary[s.title] = 1;
+          }
+      }
+      return s.featureCode;
+    });
+    const sName = d.hmis.firstname + (d.hmis.middleInitial? ' ' + d.hmis.middleInitial + ' ' : ' ' ) + d.hmis.lastname;
+    reportData.hmisSummary = reportData.hmisSummary.concat({name: sName, hmisId: d.hmis.hmisId, svcCharString: hmisFeatureCodes.join('') });
+
+    const r = d.hmis.race ? d.hmis.race : 'o';
+    if (reportData.raceSummary[r]){
+      reportData.raceSummary[r] = reportData.raceSummary[r] + 1;
+    } else {
+      reportData.raceSummary[r] = 1;
+    }
+
+    if (reportData.genderSummary[d.hmis.gender]){
+      reportData.genderSummary[d.hmis.gender] = reportData.genderSummary[d.hmis.gender] + 1;
+    } else {
+      reportData.genderSummary[d.hmis.gender]  = 1;
+    }
+
+  });
+
+  return reportData;
+}
 });
