@@ -6,6 +6,7 @@ import '../imports/api/daily.js';
 
 import { Services } from '../imports/api/services';
 import { HMIS } from '../imports/api/hmis';
+import { Daily } from '../imports/api/daily';
 
 Meteor.startup(() => {
   //TODO remove
