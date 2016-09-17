@@ -4,6 +4,10 @@ import { HMIS } from '../api/hmis';
 import { browserHistory } from 'react-router';
 
 
+// TODO : Add a contact icon and position inside of input area.
+// Update placeholder text color
+// Discuss sizes with Brian adjust accordingly
+
 // App component - represents the whole app
 class FindHmis extends Component {
   constructor(props){
@@ -34,17 +38,67 @@ class FindHmis extends Component {
   }
 
   render(){
-    const NotFound = this.state.notFound ? (<div>Not Found</div>):undefined
+    const NotFound = this.state.notFound ? (<div style={{alignSelf: 'center', fontSize: '14px'}}>Not Found</div>): undefined;
     return (
-      <div style={{ margin: "auto", flex: "1"}}>
-        <input ref="hmisId" onKeyDown={(e)=>{
-          //console.log('EEE: ', e.charCode, e.keyCode, e);
-          if (e.keyCode === 13){
-            this.handleSubmit();
-          }
-        }}/>
-        <span>
-          <button onClick={this.handleSubmit} >find hmis</button>
+      <div
+          style={{
+            color: '#29b794',
+            display: 'flex',
+            flex: "1",
+            flexDirection: 'column',
+            fontFamily: 'avenir',
+            margin: "auto"
+            }}
+      >
+        <input
+            ref="hmisId"
+            placeholder="Find HMIS"
+            onKeyDown={(e)=>{
+              //console.log('EEE: ', e.charCode, e.keyCode, e);
+              if (e.keyCode === 13){
+                this.handleSubmit();
+              }
+            }}
+            style={{
+              backgroundColor: '#239d82',
+              border: 'none',
+              borderRadius: '50px',
+              color: '#29b794',
+              height: '20px',
+              outline: 'none',
+              paddingLeft: '10px',
+              paddingRight: '10px',
+              width: '155px'
+            }}
+        />
+        <span
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            marginTop: '10px',
+            width: '100%'
+          }}
+        >
+          <button
+            onClick={this.handleSubmit}
+            style={{
+              backgroundColor: '#fff',
+              border: 'none',
+              borderRadius: '50px',
+              color: '#29b794',
+              flex: '1',
+              fontFamily: 'Avenir',
+              fontSize: '18px',
+              height: '20px',
+              lineHeight: '1',
+              marginBottom: '10px',
+              outline: 'none',
+              paddingLeft: '10px',
+              paddingRight: '10px'
+            }}
+          >
+            Submit
+          </button>
           {NotFound}
         </span>
       </div>
