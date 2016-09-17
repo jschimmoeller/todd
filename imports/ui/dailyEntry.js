@@ -10,6 +10,8 @@ import { Daily } from '../api/daily';
 import { browserHistory } from 'react-router';
 import NumericInput from 'react-numeric-input';
 
+
+//TODO: style info area better...style hmis name.
 // App component - represents the whole app
 class DailyEntry extends Component {
   constructor(props){
@@ -56,16 +58,64 @@ class DailyEntry extends Component {
 
   render(){
     return (
-      <div>
-        <div>
-          <div>HMIS Info</div>
-          <div>
-            <div>Name: {this.state.hmis.firstname + ' ' + (this.state.hmis.middleInitial ? (this.state.hmis.middleInitial + ' ') : '') +  this.state.hmis.lastname}</div>
-            <div>Gender: {this.state.hmis.gender}</div>
-            <div>Race: {this.state.hmis.race}</div>
+      <div
+        style={{
+          color: '#fff',
+          fontFamily: 'avenir',
+          fontSize: '14px',
+          //backgroundColor: '#29b794'
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
+          <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center'
+              }}
+          >
+            HMIS Info
+          </div>
+          <div
+              style={{
+                alignItems: 'center',
+                display: 'flex',
+                flex: '1',
+                flexDirection: 'column'
+              }}
+          >
+            <div>
+              Name:
+                {this.state.hmis.firstname + ' ' + (this.state.hmis.middleInitial ? (this.state.hmis.middleInitial + ' ') : '') +  this.state.hmis.lastname}</div>
+            <div>Gender:
+              <span style={{
+                fontWeight: '700'
+              }}
+              >
+                {this.state.hmis.gender}
+              </span>
+            </div>
+            <div>
+              Race:
+              <span
+                  style={{
+                    fontWeight: '700'
+                  }}
+              >
+                {this.state.hmis.race}
+              </span>
+            </div>
           </div>
         </div>
-        <ul>
+        <ul
+          style={{
+            listStyle: 'none'
+          }}
+        >
           {this.props.services.map((s)=>{
             let sQuantity;
             if (s.hasQuantity){
@@ -91,7 +141,17 @@ class DailyEntry extends Component {
               //console.log('checked:', s.title);
               return (
                 <li key={s._id}>
-                  <label><input type="checkbox" onChange={(e)=>{this.handleChange(e,s)}} checked  />{s.title}</label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      onChange={(e)=>{this.handleChange(e,s)}}
+                      checked
+                      style={{
+
+                      }}
+                    />
+                      {s.title}
+                    </label>
                   {sQuantity}
                 </li>
               );
@@ -107,13 +167,63 @@ class DailyEntry extends Component {
             }
           })}
         </ul>
-        <button onClick={()=>{
-          browserHistory.push('/');
-        }}>Cancel</button>
-        <button onClick={()=>{
-          Meteor.call('daily.save', this.state.hmis, this.state.hmisServices );
-          browserHistory.push('/');
-        }}>Save</button>
+        <div
+          style={{
+            display: 'flex',
+            flex: '1',
+            justifyContent: 'space-between',
+            padding: '10px'
+          }}
+        >
+          <button
+          onClick={()=>{
+            Meteor.call('daily.save', this.state.hmis, this.state.hmisServices );
+            browserHistory.push('/');
+          }}
+          style={{
+            backgroundColor: '#fff',
+            border: 'none',
+            borderRadius: '50px',
+            color: '#29b794',
+            flex: '4 0 ',
+            fontFamily: 'Avenir',
+            fontSize: '18px',
+            height: '20px',
+            lineHeight: '1',
+            marginBottom: '10px',
+            outline: 'none',
+            paddingLeft: '10px',
+            paddingRight: '10px',
+            width: '75px'
+          }}
+          >
+            Save
+          </button>
+          <button
+          onClick={()=>{
+            browserHistory.push('/');
+          }}
+          style={{
+            backgroundColor: '#29b794',
+            border: 'solid 0.5px #ffffff',
+            borderRadius: '50px',
+            color: '#fff',
+            flex: '4',
+            fontFamily: 'Avenir',
+            fontSize: '18px',
+            height: '20px',
+            lineHeight: '1',
+            marginBottom: '10px',
+            outline: 'none',
+            //padding: '15px',
+            paddingLeft: '10px',
+            paddingRight: '10px',
+            width: '75px'
+          }}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     );
 
