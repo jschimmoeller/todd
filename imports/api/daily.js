@@ -87,8 +87,9 @@ Meteor.methods({
    return x.length();
  },
 'daily.reportTotals'(sDate) {
+  //console.log('>>>', sDate);
 
-  let today = new Date();
+  let today = new Date(sDate);
   today.setHours(0);
   today.setMinutes(0);
   today.setSeconds(0);
@@ -102,7 +103,7 @@ Meteor.methods({
     $gte: today,
     $lt: tomorrow
   }}).fetch();
-  console.log('>>>>', x);
+  //console.log('>>>>', x);
 
   const reportData = {
     reportDate: sDate,
