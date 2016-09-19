@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { ContactsIconSVG } from './svgs';
+import { AvatarIconSVG } from './svgs';
 
 class Footer extends Component {
   render(){
     // TODO: Figure out why ContactsIconSVG is being a jerk. :(
-    const count = 'Served ' + this.props.hmisCount + ' today';
+    const count = 'Served ' + this.props.hmisCount ;
     return (
       <div
           style={{
@@ -25,7 +25,7 @@ class Footer extends Component {
             style={{
               margin: "auto"}}
         >
-          {count}
+          {count} <AvatarIconSVG /> Today
         </div>
       </div>
     );

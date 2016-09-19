@@ -253,7 +253,20 @@ class SearchIconSVG extends React.Component {
   }
 }
 
+class AvatarIconSVG extends React.Component {
+  render() {
+    return (
+      <ContainerIconSVG svgStyle={this.props.svgStyle}>
+        <title>{this.props.title}</title>
+        <desc>{this.props.description}</desc>
+          <path d="M7 25.11C7 21.94 10.48 20 16 20 21.52 20 25 21.94 25 25.11L25 29C25 29.55 25.45 30 26 30 26.55 30 27 29.55 27 29L27 25.11C27 20.52 22.48 18 16 18 9.52 18 5 20.52 5 25.11L5 29C5 29.55 5.45 30 6 30 6.55 30 7 29.55 7 29L7 25.11ZM23 10C23 6.13 19.87 3 16 3 12.13 3 9 6.13 9 10 9 13.87 12.13 17 16 17 19.87 17 23 13.87 23 10ZM11 10C11 7.24 13.24 5 16 5 18.76 5 21 7.24 21 10 21 12.76 18.76 15 16 15 13.24 15 11 12.76 11 10Z"/>
+      </ContainerIconSVG>
+    );
+  }
+}
+
 export {
+  AvatarIconSVG,
   CalendarIconSVG,
   ArrowDownIconSVG,
   ArrowUpIconSVG,
