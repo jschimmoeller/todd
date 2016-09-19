@@ -25,7 +25,17 @@ class Footer extends Component {
             style={{
               margin: "auto"}}
         >
-          {count} <AvatarIconSVG /> Today
+          {count}
+          <AvatarIconSVG
+              svgStyle={{
+                fill: '#fff',
+                height: '18px',
+                paddingLeft: '5px',
+                paddingRight: '5px',
+                width: '18px'
+              }}
+          />
+          Today
         </div>
       </div>
     );
