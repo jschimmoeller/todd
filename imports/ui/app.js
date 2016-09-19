@@ -31,7 +31,15 @@ class App extends Component {
         }
 
       }}>
-        <SettingsIconSVG title="settings" description="settings" svgStyle={{width: "25px", height: "25px"}}/>
+        <SettingsIconSVG
+            title="settings"
+            description="settings"
+            svgStyle={{
+              width: "25px",
+              fill: '#fff',
+              height: "25px"
+            }}
+          />
       </div>
     );
     let backComponent;
@@ -41,7 +49,15 @@ class App extends Component {
           //console.log('cccccllllick', location.href )
           browserHistory.push('/');
         }}>
-          <BackIconSVG title="back" description="back" svgStyle={{width: "25px", height: "25px"}} />
+          <BackIconSVG
+            title="back"
+            description="back"
+            svgStyle={{
+              width: "25px",
+              fill: '#fff',
+              height: "25px"
+            }}
+          />
         </div>
       );
     }
