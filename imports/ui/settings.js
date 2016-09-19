@@ -66,7 +66,7 @@ class Settings extends Component {
     }
 
     return (
-      <div>
+      <div className="services">
         <ul>
           {this.renderServices()}
         </ul>
