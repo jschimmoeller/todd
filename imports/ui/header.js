@@ -45,15 +45,15 @@ export default class Header extends Component {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: '24px',
-                  height: '24px',
+                  width: '50px',
+                  height: '50px',
                   borderRadius: '50px',
                   backgroundColor: '#25a586'}}
             >
               <CalendarIconSVG
                   svgStyle={{
-                    width: '16px',
-                    height: '16px',
+                    width: '24px',
+                    height: '24px',
                     fill: '#ffffff'}}
               />
             </div>
@@ -65,7 +65,8 @@ export default class Header extends Component {
               margin: "auto",
               right: "10px",
               top: "8px",
-              position: "absolute"}}
+              position: "absolute"
+            }}
         >
           {this.props.componentRight}
         </div>
