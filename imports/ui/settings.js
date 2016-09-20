@@ -89,7 +89,10 @@ class Settings extends Component {
         style={{
           color: '#fff',
           fontFamily: 'avenir',
-          fontSize: '14px'
+          fontSize: '14px',
+          display: 'flex',
+          flex: "1 1 30%",
+          flexWrap: "wrap"
         }}
       >
           {this.renderServices()}

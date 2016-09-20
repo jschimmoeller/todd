@@ -69,7 +69,10 @@ class ServiceItem extends Component {
           display: 'flex',
           justifyContent: 'space-between',
           listStyle: "none",
-          padding: '5px'
+          padding: '5px',
+          width: '350px',
+          marginLeft: "30px",
+          marginBottom: "10px"
         }}
       >
         <div
