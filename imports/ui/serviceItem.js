@@ -6,6 +6,56 @@ class ServiceItem extends Component {
     super(props);
 
   }
+  getStyle(cName){
+    let sReturn;
+    switch(cName){
+      case 'edit':
+        sReturn ={
+          //width: "17.5px",
+          //height:" 9px",
+          fontSize: "10px",
+          //fontWeight: "900",
+          fontStyle: "normal",
+          //fontStretch: "normal",
+          //lineHeight: "1",
+          width: "50px",
+          border: "0px",
+          margin: "5px 10px 5px 10px",
+          padding: "0px",
+          height: "20px",
+          borderRadius: "50px",
+          backgroundColor: "#ffffff",
+          color: "#25a586"
+        }
+        break;
+      case 'delete':
+        sReturn ={
+          //width: "17.5px",
+          //height:" 9px",
+          fontSize: "10px",
+          //fontWeight: "900",
+          fontStyle: "normal",
+          //fontStretch: "normal",
+          //lineHeight: "1",
+          width: "50px",
+          border: "0px",
+          margin: "5px 10px 5px 10px",
+          padding: "0px",
+          height: "20px",
+          borderRadius: "50px",
+          border: "solid 0.5px #ffffff",
+          backgroundColor: '#239d82',
+          color: "#ffffff"
+        }
+        break;
+      default:
+        console.log('missing: ', cName);
+
+    }
+
+    return sReturn;
+  }
+
   render(){
     let editComponent;
     if (this.props.isOpen){
@@ -15,9 +65,9 @@ class ServiceItem extends Component {
     return (
       <li style={{listStyle: "none"}}>
         <div>
-        {this.props.item.title}
-        <button onClick={()=>{this.props.cbEdit(this.props.item._id)}}>Edit</button>
-        <button onClick={()=>{this.props.cbDelete(this.props.item._id)}}>Delete</button>
+        <span style={{paddingLeft: "10px", paddingRight: "10px", width: "100px", overflow: "hidden" }}>{this.props.item.title}</span>
+        <button style={this.getStyle('edit')} onClick={()=>{this.props.cbEdit(this.props.item._id)}}>Edit</button>
+        <button style={this.getStyle('delete')} onClick={()=>{this.props.cbDelete(this.props.item._id)}}>Delete</button>
         </div>
         {editComponent}
       </li>
