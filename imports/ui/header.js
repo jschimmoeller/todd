@@ -12,7 +12,7 @@ export default class Header extends Component {
             color: 'white',
             display: 'flex',
             direction: "row",
-            height: "70px" }}
+            height: "100px" }}
       >
         <div
             style={{
