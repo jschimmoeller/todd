@@ -57,7 +57,8 @@ class FindHmis extends Component {
             flex: "1",
             flexDirection: 'column',
             fontFamily: 'avenir',
-            margin: "auto"
+            margin: "auto",
+            marginTop: '75px'
             }}
       >
         <input
