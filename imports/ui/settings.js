@@ -27,7 +27,7 @@ class Settings extends Component {
     }
     handleEdit(id){
       this.setState({ ...this.state, editItem: id });
-      //console.log("editing", id);
+      console.log("editing", id);
     }
     handleSave(item){
       //console.log('saving item: ', item);
@@ -41,11 +41,12 @@ class Settings extends Component {
 
     renderServices(){
       return this.props.services.map((s)=>{
+        console.log('>>>', s._id, s._id == this.state.editItem, this.state.editItem)
         return (
           <ServiceItem
             key={s._id}
             item={s}
-            isOpen={s._id === this.state.editItem }
+            isOpen={s._id == this.state.editItem }
             cbEdit={this.handleEdit}
             cbDelete={this.handleDelete}
             cbSave={this.handleSave}
