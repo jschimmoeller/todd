@@ -16,6 +16,12 @@ body {
 
 }
 
+.services {
+  height: calc(100vh - 130px);
+  overflow-y: auto;
+
+}
+
 .input-calendar {
   font-family: 'Pontano Sans', sans-serif;
   position: relative;

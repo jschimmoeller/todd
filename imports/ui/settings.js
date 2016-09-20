@@ -83,23 +83,22 @@ class Settings extends Component {
     }
 
     return (
-      <div>
-        <ul
-          style={{
-            color: '#fff',
-            fontFamily: 'avenir',
-            fontSize: '14px'
-          }}
-        >
+      <div className="services">
+      <ul
+        style={{
+          color: '#fff',
+          fontFamily: 'avenir',
+          fontSize: '14px'
+        }}
+      >
           {this.renderServices()}
-        </ul>
+      </ul>
         {addComponent}
       </div>
     );
   }
 }
 export default createContainer(() => {
-
 
   return {
     services: Services.find({}, { sort: { title: 0 } }).fetch(),
