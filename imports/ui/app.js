@@ -35,9 +35,9 @@ class App extends Component {
             title="settings"
             description="settings"
             svgStyle={{
-              width: "25px",
+              width: "32px",
               fill: '#fff',
-              height: "25px"
+              height: "32px"
             }}
           />
       </div>
@@ -53,9 +53,9 @@ class App extends Component {
             title="back"
             description="back"
             svgStyle={{
-              width: "25px",
+              width: "32px",
               fill: '#fff',
-              height: "25px"
+              height: "32px"
             }}
           />
         </div>
