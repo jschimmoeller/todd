@@ -22,6 +22,27 @@ body {
 
 }
 
+::-webkit-input-placeholder {
+   color: #29b794;
+   font-size: 18px;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: #29b794;
+   font-size: 18px;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: #29b794;
+   font-size: 18px;
+}
+
+:-ms-input-placeholder {
+   color: #29b794;
+   font-size: 18px;
+}
+
+
 .input-calendar {
   font-family: 'Pontano Sans', sans-serif;
   position: relative;

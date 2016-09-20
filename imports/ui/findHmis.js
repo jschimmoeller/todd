@@ -38,7 +38,17 @@ class FindHmis extends Component {
   }
 
   render(){
-    const NotFound = this.state.notFound ? (<div style={{alignSelf: 'center', fontSize: '14px'}}>Not Found</div>): undefined;
+    const NotFound = this.state.notFound ? (
+      <div style={{
+        alignSelf: 'center',
+        color: '#239d82',
+        fontFamily: 'avenir',
+        fontSize: '18px',
+        fontWeight: '700'
+      }}>
+        Not Found
+      </div>)
+      : undefined;
     return (
       <div
           style={{
@@ -64,11 +74,12 @@ class FindHmis extends Component {
               border: 'none',
               borderRadius: '50px',
               color: '#29b794',
-              height: '20px',
+              fontSize: '18px',
+              height: '30px',
               outline: 'none',
               paddingLeft: '10px',
               paddingRight: '10px',
-              width: '155px'
+              //width: '300px'
             }}
         />
         <span
@@ -76,7 +87,7 @@ class FindHmis extends Component {
             display: 'flex',
             flexDirection: 'column',
             marginTop: '10px',
-            width: '100%'
+            //width: '100%'
           }}
         >
           <button
@@ -86,10 +97,11 @@ class FindHmis extends Component {
               border: 'none',
               borderRadius: '50px',
               color: '#29b794',
+              height: '30px',
+              width: '300px',
               flex: '1',
               fontFamily: 'Avenir',
               fontSize: '18px',
-              height: '20px',
               lineHeight: '1',
               marginBottom: '10px',
               outline: 'none',
