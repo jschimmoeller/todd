@@ -57,7 +57,11 @@ export default class Header extends Component {
                     fill: '#ffffff'}}
               />
             </div>
-            {this.props.title}
+            <span
+                  style={{
+                    paddingTop: '15px'}}>
+                {this.props.title}
+            </span>
           </Link>
         </div>
         <div

@@ -87,7 +87,7 @@ class FindHmis extends Component {
           style={{
             display: 'flex',
             flexDirection: 'column',
-            marginTop: '10px'
+            marginTop: '20px'
             //width: '100%'
           }}
         >
