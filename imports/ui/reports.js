@@ -76,6 +76,11 @@ class Reports extends Component {
         >
             Reports
         </div>
+        <span
+             style={{
+               display: 'flex',
+               justifyContent: 'center'
+             }}>
         <Calendar
             format='MM-DD-YYYY'
             date={this.state.reportDate}
@@ -84,6 +89,7 @@ class Reports extends Component {
               this.setState({ ...this.state, reportDate: d });
             }}
         />
+        </span>
         <button
             onClick={()=>{
               //console.log('clicking retrieve', this.state.reportDate);
