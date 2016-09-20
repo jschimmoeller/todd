@@ -76,7 +76,10 @@ class DailyEntry extends Component {
           <div
               style={{
                 display: 'flex',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                fontSize: '18px',
+                fontWeight: '550',
+                paddingBottom: '30px'
               }}
           >
             HMIS Info
@@ -84,19 +87,30 @@ class DailyEntry extends Component {
           <div
               style={{
                 alignItems: 'center',
+                fontSize: '18px',
+                fontWeight: '550',
                 display: 'flex',
                 flex: '1',
                 flexDirection: 'column'
               }}
           >
             <div>
-              Name:
-                {this.state.hmis.firstname + ' ' + (this.state.hmis.middleInitial ? (this.state.hmis.middleInitial + ' ') : '') +  this.state.hmis.lastname}</div>
+              <span
+                   style={{
+                     paddingRight: '10px'
+                   }}
+                >
+                Name:
+              </span>
+              <span>
+                {this.state.hmis.firstname + ' ' + (this.state.hmis.middleInitial ? (this.state.hmis.middleInitial + ' ') : '') +  this.state.hmis.lastname}
+              </span>
+            </div>
             <div>Gender:
-              <span style={{
-                fontWeight: '700'
-              }}
-              >
+              <span
+                   style={{
+                     paddingLeft: '10px'
+                   }}>
                 {this.state.hmis.gender}
               </span>
             </div>
@@ -104,7 +118,7 @@ class DailyEntry extends Component {
               Race:
               <span
                   style={{
-                    fontWeight: '700'
+                    paddingLeft: '10px'
                   }}
               >
                 {this.state.hmis.race}
@@ -143,14 +157,14 @@ class DailyEntry extends Component {
               return (
                 <li key={s._id}>
                   <label>
-                    <input
-                      type="checkbox"
-                      onChange={(e)=>{this.handleChange(e,s)}}
-                      checked
-                      style={{
+                      <input
+                        type="checkbox"
+                        onChange={(e)=>{this.handleChange(e,s)}}
+                        checked
+                        style={{
 
-                      }}
-                    />
+                        }}
+                      />
                       {s.title}
                     </label>
                   {sQuantity}
@@ -161,7 +175,14 @@ class DailyEntry extends Component {
               //console.log('NOT checked:', s.title);
               return (
                 <li key={s._id}>
-                  <label><input type="checkbox" onChange={(e)=>{this.handleChange(e,s)}} />{s.title}</label>
+                  <label>
+                    <span style={{paddingRight: '15px'}}>
+                      <input type="checkbox" onChange={(e)=>{this.handleChange(e,s)}} />
+                    </span>
+                    <span style={{fontWeight: '550', fontSize: '18px', paddingRight: '10px'}}>
+                      {s.title}
+                    </span>
+                  </label>
                   {sQuantity}
                 </li>
               );
