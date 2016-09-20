@@ -42,11 +42,14 @@ class Settings extends Component {
     renderServices(){
       return this.props.services.map((s)=>{
         return (
-          <ServiceItem key={s._id} item={s}
+          <ServiceItem
+            key={s._id}
+            item={s}
             isOpen={s._id === this.state.editItem }
             cbEdit={this.handleEdit}
             cbDelete={this.handleDelete}
-            cbSave={this.handleSave} />
+            cbSave={this.handleSave}
+          />
         );
       });
     }
@@ -57,17 +60,37 @@ class Settings extends Component {
       addComponent = (<ServiceItemEdit cbSave={this.handleSave} />);
     } else {
       addComponent = (
-        <div onClick={()=>{
-          this.setState({ ...this.state, isAdding: !this.state.isAdding })
-        }} >
-          <AddBorderIconSVG title="add" description="add" svgStyle={{width: "24px", height: "24px"}} />
+        <div
+          style={{
+            display: 'flex',
+            flex: 1,
+            justifyContent: 'center'
+          }}
+          onClick={()=>{
+            this.setState({ ...this.state, isAdding: !this.state.isAdding })
+          }}
+        >
+          <AddBorderIconSVG
+            title="add"
+            description="add"
+            svgStyle={{
+              fill: "#fff",
+              width: "24px",
+              height: "24px"}}
+          />
         </div>
       );
     }
 
     return (
       <div>
-        <ul>
+        <ul
+          style={{
+            color: '#fff',
+            fontFamily: 'avenir',
+            fontSize: '14px'
+          }}
+        >
           {this.renderServices()}
         </ul>
         {addComponent}
