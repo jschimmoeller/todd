@@ -46,7 +46,7 @@ class FindHmis extends Component {
         fontSize: '18px',
         fontWeight: '700'
       }}>
-        Not Found
+        No HMIS with that ID Found
       </div>)
       : undefined;
     return (
@@ -57,7 +57,8 @@ class FindHmis extends Component {
             flex: "1",
             flexDirection: 'column',
             fontFamily: 'avenir',
-            margin: "auto"
+            margin: "auto",
+            paddingTop: '15px'
             }}
       >
         <input
@@ -78,7 +79,7 @@ class FindHmis extends Component {
               height: '30px',
               outline: 'none',
               paddingLeft: '10px',
-              paddingRight: '10px',
+              paddingRight: '10px'
               //width: '300px'
             }}
         />
@@ -86,7 +87,7 @@ class FindHmis extends Component {
           style={{
             display: 'flex',
             flexDirection: 'column',
-            marginTop: '10px',
+            marginTop: '10px'
             //width: '100%'
           }}
         >
@@ -106,7 +107,8 @@ class FindHmis extends Component {
               marginBottom: '10px',
               outline: 'none',
               paddingLeft: '10px',
-              paddingRight: '10px'
+              paddingRight: '10px',
+              fontWeight: '600'
             }}
           >
             Submit
