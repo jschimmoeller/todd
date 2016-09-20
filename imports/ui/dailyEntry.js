@@ -157,16 +157,13 @@ class DailyEntry extends Component {
               return (
                 <li key={s._id}>
                   <label>
-                      <input
-                        type="checkbox"
-                        onChange={(e)=>{this.handleChange(e,s)}}
-                        checked
-                        style={{
-
-                        }}
-                      />
+                    <span style={{paddingRight: '15px'}}>
+                      <input type="checkbox" onChange={(e)=>{this.handleChange(e,s)}} />
+                    </span>
+                    <span style={{fontWeight: '550', fontSize: '18px', paddingRight: '10px'}}>
                       {s.title}
-                    </label>
+                    </span>
+                  </label>
                   {sQuantity}
                 </li>
               );
