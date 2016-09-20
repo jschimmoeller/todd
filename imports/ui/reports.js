@@ -63,18 +63,54 @@ class Reports extends Component {
     }
     return (
       <div>
-        <div>reports</div>
-        <Calendar format='MM-DD-YYYY' date={this.state.reportDate} onChange={(d)=>{
-          //console.log('Date Changed:', d);
-          this.setState({ ...this.state, reportDate: d });
-        }}/>
-        <button onClick={()=>{
-          //console.log('clicking retrieve', this.state.reportDate);
-          Meteor.call('daily.reportTotals', this.state.reportDate, (e, data)=>{
-            //console.log('Report Data: ', e, data);
-            this.setState({ ...this.state, reportData: data});
-          })
-        }} >Retrieve</button>
+        <div
+            style={{
+              display: 'flex',
+              color: '#fff',
+              fontFamily: 'avenir',
+              fontSize: '18px',
+              fontWeight: '700',
+              justifyContent: 'center',
+              marginTop: '75px'
+            }}
+        >
+            Reports
+        </div>
+        <Calendar
+            format='MM-DD-YYYY'
+            date={this.state.reportDate}
+            onChange={(d)=>{
+              //console.log('Date Changed:', d);
+              this.setState({ ...this.state, reportDate: d });
+            }}
+        />
+        <button
+            onClick={()=>{
+              //console.log('clicking retrieve', this.state.reportDate);
+              Meteor.call('daily.reportTotals', this.state.reportDate, (e, data)=>{
+                //console.log('Report Data: ', e, data);
+                this.setState({ ...this.state, reportData: data});
+              });
+            }}
+            style={{
+              backgroundColor: '#fff',
+              border: 'none',
+              borderRadius: '50px',
+              color: '#29b794',
+              height: '30px',
+              width: '300px',
+              flex: '1',
+              fontFamily: 'Avenir',
+              fontSize: '18px',
+              lineHeight: '1',
+              marginBottom: '10px',
+              outline: 'none',
+              paddingLeft: '10px',
+              paddingRight: '10px'
+            }}
+        >
+            Retrieve
+        </button>
         {reportDetails}
       </div>
     )

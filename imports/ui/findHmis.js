@@ -58,7 +58,11 @@ class FindHmis extends Component {
             flexDirection: 'column',
             fontFamily: 'avenir',
             margin: "auto",
+<<<<<<< HEAD
             paddingTop: '15px'
+=======
+            marginTop: '75px'
+>>>>>>> 61888a31f03547791551c2437392cde80649965a
             }}
       >
         <input

@@ -83,6 +83,7 @@ class ServiceItem extends Component {
         <div>
         <button
             onClick={()=>{
+              console.log('cccccc', this.props.item._id, this.props.cbEdit)
               this.props.cbEdit(this.props.item._id);
             }}
             style={{
@@ -115,6 +116,9 @@ class ServiceItem extends Component {
             Delete
         </button>
         </div>
+        </div>
+        <div>
+          {editComponent}
         </div>
       </li>
     );
