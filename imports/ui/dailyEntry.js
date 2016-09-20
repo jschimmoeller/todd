@@ -63,6 +63,7 @@ class DailyEntry extends Component {
           color: '#fff',
           fontFamily: 'avenir',
           fontSize: '14px',
+          marginTop: '20px'
           //backgroundColor: '#29b794'
         }}
       >

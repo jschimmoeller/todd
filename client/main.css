@@ -16,11 +16,11 @@ body {
 
 }
 
-.services {
+/*.services {
   height: calc(100vh - 130px);
   overflow-y: auto;
 
-}
+}*/
 
 ::-webkit-input-placeholder {
    color: #29b794;
