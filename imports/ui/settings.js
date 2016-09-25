@@ -22,6 +22,7 @@ class Settings extends Component {
     this.handleEdit = this.handleEdit.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.renderServices = this.renderServices.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
     handleDelete(id){
@@ -40,6 +41,10 @@ class Settings extends Component {
       }
       this.setState({ ...this.state, status: 'showSettings', editItem: undefined, isAdding: false });
     }
+    handleCancel(){
+      //console.log('cancel item: ', item);
+      this.setState({ ...this.state, status: 'showSettings', editItem: undefined, isAdding: false });
+    }
 
     renderServices(){
       return this.props.services.map((s)=>{
@@ -51,6 +56,7 @@ class Settings extends Component {
             isOpen={s._id == this.state.editItem }
             cbEdit={this.handleEdit}
             cbDelete={this.handleDelete}
+            cbCancel={this.handleCancel}
             cbSave={this.handleSave}
           />
         );

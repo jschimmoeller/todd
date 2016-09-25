@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ServiceItemEdit from './serviceItemEdit';
+import {ModalContainer, ModalDialog} from 'react-modal-dialog';
 
 class ServiceItem extends Component {
   constructor(props){
@@ -59,7 +60,14 @@ class ServiceItem extends Component {
   render(){
     let editComponent;
     if (this.props.isOpen){
-      editComponent = <ServiceItemEdit item={this.props.item} cbSave={this.props.cbSave} />
+      editComponent = (
+        <ModalContainer onClose={this.props.cbCancel}>
+          <ModalDialog onClose={this.props.cbCancel}>
+            <h1>Edit Service</h1>
+            <ServiceItemEdit cbCancel={this.props.cbCancel} item={this.props.item} cbSave={this.props.cbSave} />
+          </ModalDialog>
+        </ModalContainer>
+        );
     }
 
     return (
@@ -133,6 +141,7 @@ ServiceItem.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   cbEdit: PropTypes.func.isRequired,
   cbDelete: PropTypes.func.isRequired,
+  cbCancel: PropTypes.func.isRequired,
   cbSave: PropTypes.func.isRequired,
 };
 
