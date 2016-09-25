@@ -30,14 +30,14 @@ class Settings extends Component {
     }
     handleEdit(id){
       this.setState({ ...this.state, editItem: id });
-      console.log("editing", id);
+      //console.log("editing", id);
     }
     handleSave(item){
       //console.log('saving item: ', item);
       if (item.hasOwnProperty('_id')){
-        Meteor.call('services.update', item._id, item.title, item.featureCode );
+        Meteor.call('services.update', item._id, item.title, item.featureCode, item.hasQuantity );
       } else {
-        Meteor.call('services.insert', item.title, item.featureCode );
+        Meteor.call('services.insert', item.title, item.featureCode, item.hasQuantity );
       }
       this.setState({ ...this.state, status: 'showSettings', editItem: undefined, isAdding: false });
     }
@@ -48,7 +48,7 @@ class Settings extends Component {
 
     renderServices(){
       return this.props.services.map((s)=>{
-        console.log('>>>', s._id, s._id == this.state.editItem, this.state.editItem)
+        //console.log('>>>', s._id, s._id == this.state.editItem, this.state.editItem)
         return (
           <ServiceItem
             key={s._id}
@@ -106,18 +106,19 @@ class Settings extends Component {
 
     return (
       <div className="services">
-      <ul
-        style={{
-          color: '#fff',
-          fontFamily: 'avenir',
-          fontSize: '14px',
-          display: 'flex',
-          flex: "1 1 30%",
-          flexWrap: "wrap"
-        }}
-      >
-          {this.renderServices()}
-      </ul>
+        {addComponent}
+        <ul
+          style={{
+            color: '#fff',
+            fontFamily: 'avenir',
+            fontSize: '14px',
+            display: 'flex',
+            flex: "1 1 30%",
+            flexWrap: "wrap"
+          }}
+        >
+            {this.renderServices()}
+        </ul>
         {addComponent}
       </div>
     );

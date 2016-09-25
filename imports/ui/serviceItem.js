@@ -94,7 +94,7 @@ class ServiceItem extends Component {
         <div>
         <button
             onClick={()=>{
-              console.log('cccccc', this.props.item._id, this.props.cbEdit)
+              //console.log('cccccc', this.props.item._id, this.props.cbEdit)
               this.props.cbEdit(this.props.item._id);
             }}
             style={{
