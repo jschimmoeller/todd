@@ -9,7 +9,7 @@ class ServiceItemEdit extends Component {
     const title = this.refs.titleInput.value.trim();
     const featureCode = this.refs.featureCodeInput.value.trim();
     const item = { ...this.props.item, title, featureCode };
-    
+
     if (item.hasOwnProperty('title') && item.title.length > 0 &&
         item.hasOwnProperty('featureCode') && item.featureCode.length > 0){
       this.props.cbSave(item);
@@ -24,19 +24,26 @@ class ServiceItemEdit extends Component {
   render(){
     return (
       <div>
-        <input
-          type="text"
-          ref="titleInput"
-          placeholder="Title for Service"
-          defaultValue={this.props.item && this.props.item.title}
-        />
-        <input
-          type="text"
-          ref="featureCodeInput"
-          placeholder="Feature Code"
-          defaultValue={this.props.item && this.props.item.featureCode}
-        />
-        <button onClick={this.handleSave}>Save</button>
+        <div>
+          <input
+            type="text"
+            ref="titleInput"
+            placeholder="Title for Service"
+            defaultValue={this.props.item && this.props.item.title}
+          />
+        </div>
+        <div>
+          <input
+            type="text"
+            ref="featureCodeInput"
+            placeholder="Feature Code"
+            defaultValue={this.props.item && this.props.item.featureCode}
+          />
+        </div>
+        <div>
+          <button onClick={this.props.cbCancel}>Cancel</button>
+          <button onClick={this.handleSave}>Save</button>
+        </div>
       </div>
     );
   }

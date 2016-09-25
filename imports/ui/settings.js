@@ -9,6 +9,8 @@ import { Services } from '../api/services';
 import ServiceItem from './serviceItem';
 import ServiceItemEdit from './serviceItemEdit';
 import { AddBorderIconSVG } from './svgs';
+import {ModalContainer, ModalDialog} from 'react-modal-dialog';
+
 
 // App component - represents the whole app
 class Settings extends Component {
@@ -58,7 +60,20 @@ class Settings extends Component {
   render(){
     let addComponent;
     if (this.state.isAdding){
-      addComponent = (<ServiceItemEdit cbSave={this.handleSave} />);
+      addComponent = (
+        <ModalContainer onClose={()=>{
+          this.setState({ ...this.state, isAdding: !this.state.isAdding })
+        }}>
+          <ModalDialog onClose={()=>{
+            this.setState({ ...this.state, isAdding: !this.state.isAdding })
+          }}>
+            <h1>Add Service</h1>
+            <ServiceItemEdit cbCancel={()=>{
+              this.setState({ ...this.state, isAdding: !this.state.isAdding })
+            }} cbSave={this.handleSave} />
+          </ModalDialog>
+        </ModalContainer>
+        );
     } else {
       addComponent = (
         <div
