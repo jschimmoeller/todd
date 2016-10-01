@@ -8,7 +8,8 @@ class ServiceItemEdit extends Component {
   handleSave(){
     const title = this.refs.titleInput.value.trim();
     const featureCode = this.refs.featureCodeInput.value.trim();
-    const item = { ...this.props.item, title, featureCode };
+    //console.log('SSSAVE:', this.refs.hasQuantity.value );
+    const item = { ...this.props.item, title, featureCode, hasQuantity: this.refs.hasQuantity.value };
 
     if (item.hasOwnProperty('title') && item.title.length > 0 &&
         item.hasOwnProperty('featureCode') && item.featureCode.length > 0){
@@ -36,16 +37,25 @@ class ServiceItemEdit extends Component {
             ref="titleInput"
             placeholder="Title for Service"
             defaultValue={this.props.item && this.props.item.title}
-            style={{borderRadius:"50px", border: "none", fontSize: "18px", lineHeight: "30px", padding: "0px 10px", width: "140px"}}
+            style={{backgroundColor: "#239d82", borderRadius:"50px", border: "none", fontSize: "18px", lineHeight: "30px", padding: "0px 10px", width: "140px"}}
           />
           <input
             type="text"
             ref="featureCodeInput"
             placeholder="Feature Code"
             defaultValue={this.props.item && this.props.item.featureCode}
-            style={{borderRadius:"50px", border: "none", fontSize: "18px", lineHeight: "30px", marginLeft: "10px", padding: "0px 10px", width: "140px"}}
+            style={{backgroundColor: "#239d82", borderRadius:"50px", border: "none", fontSize: "18px", lineHeight: "30px", marginLeft: "10px", padding: "0px 10px", width: "140px"}}
 
           />
+        </div>
+        <div>
+          <select
+            ref="hasQuantity"
+            defaultValue={this.props.item && this.props.item.hasQuantity}
+          >
+          <option value={true} >True</option>
+          <option value={false}>False</option>
+          </select>
         </div>
         <div style={{marginTop: "25px"}}>
           <button onClick={this.props.cbCancel}
