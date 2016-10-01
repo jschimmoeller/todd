@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+//import ServiceItemEdit from './serviceItemEdit';
+//import {ModalContainer, ModalDialog} from 'react-modal-dialog';
 import ServiceItemEdit from './serviceItemEdit';
-import {ModalContainer, ModalDialog} from 'react-modal-dialog';
 
 class ServiceItem extends Component {
   constructor(props){
@@ -58,17 +59,23 @@ class ServiceItem extends Component {
   }
 
   render(){
+    // let editComponent;
+    // if (this.props.isOpen){
+    //   editComponent = (
+    //     <ModalContainer onClose={this.props.cbCancel}>
+    //       <ModalDialog onClose={this.props.cbCancel}>
+    //         <h1>Edit Service</h1>
+    //         <ServiceItemEdit cbCancel={this.props.cbCancel} item={this.props.item} cbSave={this.props.cbSave} />
+    //       </ModalDialog>
+    //     </ModalContainer>
+    //     );
+    // }
+
     let editComponent;
     if (this.props.isOpen){
-      editComponent = (
-        <ModalContainer onClose={this.props.cbCancel}>
-          <ModalDialog onClose={this.props.cbCancel}>
-            <h1>Edit Service</h1>
-            <ServiceItemEdit cbCancel={this.props.cbCancel} item={this.props.item} cbSave={this.props.cbSave} />
-          </ModalDialog>
-        </ModalContainer>
-        );
+      editComponent = <ServiceItemEdit item={this.props.item} cbSave={this.props.cbSave} />
     }
+
 
     return (
       <li
@@ -94,8 +101,8 @@ class ServiceItem extends Component {
         <div>
         <button
             onClick={()=>{
-              //console.log('cccccc', this.props.item._id, this.props.cbEdit)
-              this.props.cbEdit(this.props.item._id);
+              // console.log('cccccc', this.props.item._id, this.props.cbEdit)
+              this.props.cbEdit(this.props.item);
             }}
             style={{
               backgroundColor: '#fff',
@@ -128,9 +135,6 @@ class ServiceItem extends Component {
         </button>
         </div>
         </div>
-        <div>
-          {editComponent}
-        </div>
       </li>
     );
   }
@@ -138,7 +142,7 @@ class ServiceItem extends Component {
 
 ServiceItem.propTypes = {
   item: PropTypes.object.isRequired,
-  isOpen: PropTypes.bool.isRequired,
+  //isOpen: PropTypes.bool.isRequired,
   cbEdit: PropTypes.func.isRequired,
   cbDelete: PropTypes.func.isRequired,
   cbCancel: PropTypes.func.isRequired,
