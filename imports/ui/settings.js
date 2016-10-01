@@ -59,7 +59,7 @@ class Settings extends Component {
       this.setState({...this.state, editItem: undefined, isAdding: false});
     }
     handleSave(item){
-      //console.log('saving item: ', item);
+      console.log('saving item: ', item);
       if (item.hasOwnProperty('_id')){
         Meteor.call('services.update', item._id, item.title, item.featureCode, item.hasQuantity );
       } else {
