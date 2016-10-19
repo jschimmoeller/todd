@@ -128,7 +128,7 @@ class DailyEntry extends Component {
         </div>
         <ul
           style={{
-            listStyle: 'none'
+            "listStyle": 'none', "display": "flex",  "flex": "1 1 30%",  "flexWrap": "wrap"
           }}
         >
           {this.props.services.map((s)=>{
@@ -155,7 +155,7 @@ class DailyEntry extends Component {
               // checked
               //console.log('checked:', s.title);
               return (
-                <li key={s._id}>
+                <li style={{"width": "350px" }} key={s._id}>
                   <label>
                     <span style={{paddingRight: '15px'}}>
                       <input type="checkbox" onChange={(e)=>{this.handleChange(e,s)}} />
@@ -171,7 +171,7 @@ class DailyEntry extends Component {
               // nto checked
               //console.log('NOT checked:', s.title);
               return (
-                <li key={s._id}>
+                <li style={{"width": "350px" }} key={s._id}>
                   <label>
                     <span style={{paddingRight: '15px'}}>
                       <input type="checkbox" onChange={(e)=>{this.handleChange(e,s)}} />
