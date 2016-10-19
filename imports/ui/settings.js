@@ -96,7 +96,7 @@ class Settings extends Component {
               justifyContent: 'center'
             }}
             onClick={()=>{
-              this.setState({ ...this.state, isAdding: !this.state.isAdding });
+              this.setState({ ...this.state, isAdding: !this.state.isAdding, editItem: { "hasQuantity": false } });
             }}
         >
           <AddBorderIconSVG
@@ -127,7 +127,6 @@ class Settings extends Component {
           </div>
           <ServiceItemEdit item={this.state.editItem} cbSave={this.handleSave} cbCancel={this.handleCancel} />
         </Modal>
-
         <ul
             style={{
               color: '#fff',
