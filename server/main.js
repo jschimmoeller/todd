@@ -10,6 +10,7 @@ import { Daily } from '../imports/api/daily';
 
 Meteor.startup(() => {
   //TODO remove
+  HMIS.remove({});
   const testLoad = HMIS.find({hmisId: 5}).fetch();
   //console.log('testLoad: ', testLoad);
   if (testLoad.length === 0){

@@ -6,11 +6,50 @@ import moment from 'moment';
 class HMISSummary extends Component {
   render(){
     return (
-      <div>
+      <div style={{width: "50%"}}>
         <div>{this.props.title}</div>
-        <ul>
+        <ul style={{listStyle: "none"}}>
           {this.props.data.map((i,index)=>{
-            return (<li key={index}><span>{i.hmisId}</span> <span>{i.name}</span> <span>{i.svcCharString}</span></li>);
+            return (<li key={index} style={{width: "340px"}}>
+            <span style={{width: "70px", display: "inline-block"}}><input ref={i.hmisId} value={i.hmisId} style={{width: "30px"}} readOnly />
+              <button onClick={()=>{
+                console.log('>>>', i)
+                const inp = ReactDOM.findDOMNode(this.refs[i.hmisId]);
+                inp.select();
+                try {
+                   // copy text
+                   document.execCommand('copy');
+                   inp.blur();
+                 }
+                 catch (err) {
+                   alert('please press Ctrl/Cmd+C to copy');
+                 }
+              }}>
+                <img src="clippy.svg" width="15" height="15" alt="Copy to clipboard" />
+              </button>
+            </span>
+            <span style={{width: "200px", display: "inline-block"}}>{i.name}</span>
+            <span style={{width: "70px", display: "inline-block"}}>
+              <button>
+                <img src="view.png" width="15" height="15" style={{paddingRight: "6px"}}></img>
+              </button>
+              <button onClick={()=>{
+                console.log('>>>', this.refs[i.hmisId+'-svc'])
+                const inp1 = ReactDOM.findDOMNode(this.refs[i.hmisId+'-svc']);
+                inp1.select();
+                try {
+                   // copy text
+                   document.execCommand('copy', false, null);
+                   inp1.blur();
+                 }
+                 catch (err) {
+                   alert('please press Ctrl/Cmd+C to copy');
+                 }
+              }}>
+                <input ref={i.hmisId+'-svc'} readOnly value={i.svcCharString} style={{position: "absolute", left: "-10000px", top: "-1000px"}} />
+                <img src="clippy.svg" width="15" height="15" alt="Copy to clipboard" />
+              </button>
+            </span></li>);
           })}
         </ul>
       </div>
@@ -20,11 +59,11 @@ class HMISSummary extends Component {
 class ReportSummary extends Component {
   render(){
     return (
-      <div>
+      <div style={{width: "50%"}}>
         <div>{this.props.title}</div>
-        <ul>
+        <ul style={{ display: "flex", "flex": "1 1 30%",  "flexWrap": "wrap"}}>
           {Object.keys(this.props.data).map((i,index)=>{
-            return (<li key={index}><span>{i}</span> - <span>{this.props.data[i]}</span></li>);
+            return (<li key={index} style={{listStyle: "none",  width: "200px"}}><span>{i}</span> - <span>{this.props.data[i]}</span></li>);
           })}
         </ul>
       </div>
@@ -37,8 +76,8 @@ class ReportDetail extends Component {
   render(){
     console.log('PPP', this.props.data)
     return (
-      <div>
-        <div>Report Details - {this.props.data.reportDate}</div>
+      <div style={{display: "flex", flex: "1", flexDirection:"column", alignItems: "center"}}>
+        <div style={{alignItems: "center"}}>Report Details - {this.props.data.reportDate}</div>
         <div>Total Served: - {this.props.data.hmisSummary.length}</div>
         <ReportSummary title="Race Summary" data={this.props.data.raceSummary} />
         <ReportSummary title="Gender Summary" data={this.props.data.genderSummary} />
@@ -63,6 +102,7 @@ class Reports extends Component {
     }
     return (
       <div>
+      <div style={{display: "flex", flexDirection: "column", alignItems: "center" }}>
         <div
             style={{
               display: 'flex',
@@ -117,7 +157,10 @@ class Reports extends Component {
         >
             Retrieve
         </button>
+      </div>
+      <div>
         {reportDetails}
+      </div>
       </div>
     )
   }
