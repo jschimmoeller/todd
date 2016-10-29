@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Calendar from 'react-input-calendar';
 import moment from 'moment';
 import Modal from 'react-modal';
+import { Meteor } from 'meteor/meteor';
 import { CloseIconSVG } from './svgs';
 
 const modalStyles = {
@@ -26,8 +27,13 @@ const modalStyles = {
 class HMISSummary extends Component {
   constructor(props){
     super(props);
-    this.state={showModal: false};
+    this.state={showModal: false, data: undefined, summaryData: this.props.data };
     this.handleCancel = this.handleCancel.bind(this);
+  }
+  componentWillReceiveProps(nextProps){
+    if (nextProps.hasOwnProperty('data')){
+      this.setState({...this.state, summaryData: nextProps.data});
+    }
   }
   handleCancel() {
     this.setState({...this.state, showModal: false, data: undefined });
@@ -57,12 +63,12 @@ class HMISSummary extends Component {
         </Modal>
         <div>{this.props.title}</div>
         <ul style={{listStyle: "none"}}>
-          {this.props.data.map((i,index)=>{
+          {this.state.summaryData.map((i,index)=>{
+            console.log('>>>>', i);
             return (<li key={index} style={{width: "340px"}}>
             <span style={{width: "70px", display: "inline-block"}}>{i.hmisId}
             <input ref={i.hmisId} value={i.hmisId} style={{position: "absolute", left: "-10000px", top: "-1000px"}} readOnly />
               <button onClick={()=>{
-                console.log('>>>', i)
                 const inp = ReactDOM.findDOMNode(this.refs[i.hmisId]);
                 inp.select();
                 try {
@@ -77,7 +83,7 @@ class HMISSummary extends Component {
                 <img src="clippy.svg" width="15" height="15" alt="Copy to clipboard" />
               </button>
             </span>
-            <span style={{width: "200px", display: "inline-block"}}>{i.name}</span>
+            <span style={{width: "150px", display: "inline-block"}}>{i.name}</span>
             <span style={{width: "70px", display: "inline-block"}}>
               <button onClick={()=>{
                 //console.log('>>>', this.refs[i.hmisId+'-svc'])
@@ -86,13 +92,23 @@ class HMISSummary extends Component {
                 <img src="view.png" width="15" height="15" style={{paddingRight: "6px"}}></img>
               </button>
               <button onClick={()=>{
-                console.log('>>>', this.refs[i.hmisId+'-svc'])
+                //console.log('>>>', this.refs[i.hmisId+'-svc'])
                 const inp1 = ReactDOM.findDOMNode(this.refs[i.hmisId+'-svc']);
                 inp1.select();
                 try {
                    // copy text
                    document.execCommand('copy', false, null);
                    inp1.blur();
+                   Meteor.call('daily.copied', i.id);
+
+                   const newData = this.state.summaryData.map( (j)=>{
+                     if (j.id === i.id){
+                       j.copied = true;
+                     }
+                     return j;
+                   });
+
+                   this.setState({...this.state, summaryData: newData });
                  }
                  catch (err) {
                    alert('please press Ctrl/Cmd+C to copy');
@@ -101,7 +117,11 @@ class HMISSummary extends Component {
                 <input ref={i.hmisId+'-svc'} readOnly value={i.svcCharString} style={{position: "absolute", left: "-10000px", top: "-1000px"}} />
                 <img src="clippy.svg" width="15" height="15" alt="Copy to clipboard" />
               </button>
-            </span></li>);
+            </span>
+            <span>{i.copied === true ?
+              <img src='check.png' width="15" height="15" />
+              : ''}</span>
+            </li>);
           })}
         </ul>
       </div>

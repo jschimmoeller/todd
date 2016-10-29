@@ -6,6 +6,9 @@ import { check, Match } from 'meteor/check';
 export const Daily = new Mongo.Collection('daily');
 
 Meteor.methods({
+  'daily.copied'(id){
+    Daily.update(id, {$set: { copied: true }})
+  },
  'daily.save'(hmis, services ) {
    check(hmis, Object);
    check(services, [Object])
@@ -32,6 +35,7 @@ Meteor.methods({
      Daily.insert({
        hmis,
        services,
+       copied: false,
        createdAt: new Date(),
        modifiedAt: new Date()
      });
@@ -131,7 +135,7 @@ Meteor.methods({
       return s.featureCode;
     });
     const sName = d.hmis.firstname + (d.hmis.middleInitial? ' ' + d.hmis.middleInitial + ' ' : ' ' ) + d.hmis.lastname;
-    reportData.hmisSummary = reportData.hmisSummary.concat({name: sName, hmisId: d.hmis.hmisId, svcCharString: hmisFeatureCodes.join('') });
+    reportData.hmisSummary = reportData.hmisSummary.concat({id: d._id, copied: d.copied, name: sName, hmisId: d.hmis.hmisId, svcCharString: hmisFeatureCodes.join('') });
 
     const r = d.hmis.race ? d.hmis.race : 'o';
     if (reportData.raceSummary[r]){

@@ -63,7 +63,7 @@ class App extends Component {
     }
 
     //compute headerComponent
-    let HeaderComponent = (<Header title={moment().format('MMM D, YYYY')} componentLeft={backComponent} componentRight={settingsComponent}/>);
+    let HeaderComponent = (<Header title={'Today is: '+ moment().format('MMM D, YYYY')} componentLeft={backComponent} componentRight={settingsComponent}/>);
 
     // main return here
     return (
