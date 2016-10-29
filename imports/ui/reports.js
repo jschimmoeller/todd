@@ -2,16 +2,65 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import Calendar from 'react-input-calendar';
 import moment from 'moment';
+import Modal from 'react-modal';
+import { CloseIconSVG } from './svgs';
 
+const modalStyles = {
+  overlay : {
+    backgroundColor   : 'rgba(0, 0, 0, 0.75)'
+  },
+  content : {
+    backgroundColor : '#29b794',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    padding: '0px',
+    top : '50%',
+    left : '50%',
+    right : 'auto',
+    bottom : 'auto',
+    marginRight : '-50%',
+    transform : 'translate(-50%, -50%)'
+  }
+};
 class HMISSummary extends Component {
+  constructor(props){
+    super(props);
+    this.state={showModal: false};
+    this.handleCancel = this.handleCancel.bind(this);
+  }
+  handleCancel() {
+    this.setState({...this.state, showModal: false, data: undefined });
+  }
   render(){
     return (
       <div style={{width: "50%"}}>
+        <Modal isOpen={this.state.showModal}
+            style={modalStyles}
+            onRequestClose={this.handleCancel}
+        >
+          <div style={{cursor: "pointer"}} onClick={this.handleCancel}>
+            <CloseIconSVG title="close"
+                description="close"
+                svgStyle={{
+                  fill: "#fff",
+                  width: "24px",
+                  height: "24px"}}
+            />
+          </div>
+          <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+            <div style={{color: "white", fontWeight: "bold", paddingBottom: "10px", fontSize: "24px"}}>HMIS Details</div>
+            <div style={{paddingRight: "20px", paddingLeft: "20px"}}>
+              {this.state.data}
+            </div>
+          </div>
+        </Modal>
         <div>{this.props.title}</div>
         <ul style={{listStyle: "none"}}>
           {this.props.data.map((i,index)=>{
             return (<li key={index} style={{width: "340px"}}>
-            <span style={{width: "70px", display: "inline-block"}}><input ref={i.hmisId} value={i.hmisId} style={{width: "30px"}} readOnly />
+            <span style={{width: "70px", display: "inline-block"}}>{i.hmisId}
+            <input ref={i.hmisId} value={i.hmisId} style={{position: "absolute", left: "-10000px", top: "-1000px"}} readOnly />
               <button onClick={()=>{
                 console.log('>>>', i)
                 const inp = ReactDOM.findDOMNode(this.refs[i.hmisId]);
@@ -30,7 +79,10 @@ class HMISSummary extends Component {
             </span>
             <span style={{width: "200px", display: "inline-block"}}>{i.name}</span>
             <span style={{width: "70px", display: "inline-block"}}>
-              <button>
+              <button onClick={()=>{
+                //console.log('>>>', this.refs[i.hmisId+'-svc'])
+                this.setState({...this.state, showModal: true, data: i.svcCharString });
+              }}>
                 <img src="view.png" width="15" height="15" style={{paddingRight: "6px"}}></img>
               </button>
               <button onClick={()=>{
@@ -78,7 +130,7 @@ class ReportDetail extends Component {
     return (
       <div style={{display: "flex", flex: "1", flexDirection:"column", alignItems: "center"}}>
         <div style={{alignItems: "center"}}>Report Details - {this.props.data.reportDate}</div>
-        <div>Total Served: - {this.props.data.hmisSummary.length}</div>
+        <div style={{paddingBottom: "40px"}}>Total Served: - {this.props.data.hmisSummary.length}</div>
         <ReportSummary title="Race Summary" data={this.props.data.raceSummary} />
         <ReportSummary title="Gender Summary" data={this.props.data.genderSummary} />
         <ReportSummary title="Service Summary" data={this.props.data.servicesSummary} />
