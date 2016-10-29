@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import Calendar from 'react-input-calendar';
+import DatePicker from './datePicker';
 import moment from 'moment';
 import Modal from 'react-modal';
 import { Meteor } from 'meteor/meteor';
@@ -164,7 +165,8 @@ class ReportDetail extends Component {
 class Reports extends Component {
   constructor(props){
     super(props);
-    this.state={reportDate: moment().format('MM-DD-YYYY') }
+    this.state={reportDate: Number(moment().format('x')) }
+    console.log('>>>>>', this.state);
   }
 
   render(){
@@ -191,21 +193,28 @@ class Reports extends Component {
         <span
              style={{
                display: 'flex',
-               justifyContent: 'center'
+               justifyContent: 'center',
+               width: "250px"
              }}>
-        <Calendar
-            format='MM-DD-YYYY'
-            date={this.state.reportDate}
-            onChange={(d)=>{
-              //console.log('Date Changed:', d);
-              this.setState({ ...this.state, reportDate: d });
+        <DatePicker
+            svgPosition="right"
+            cbSelectChange={(s,e)=>{
+              console.log('Date Select Changed:', s,e);
+              //this.setState({ ...this.state, reportDate: d });
             }}
+            cbOnChange={(s,e )=>{
+              console.log('>>>> Date On Changed:', s,e);
+              this.setState({ ...this.state, reportDate: s })
+            }}
+            format='MM-DD-YYYY'
+            displayTime={false}
+            startTimestamp={this.state.reportDate}
         />
         </span>
         <button
             onClick={()=>{
               //console.log('clicking retrieve', this.state.reportDate);
-              Meteor.call('daily.reportTotals', this.state.reportDate, (e, data)=>{
+              Meteor.call('daily.reportTotals', moment(this.state.reportDate).format('MM-DD-YYYY'), (e, data)=>{
                 //console.log('Report Data: ', e, data);
                 this.setState({ ...this.state, reportData: data});
               });
