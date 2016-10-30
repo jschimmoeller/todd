@@ -159,8 +159,13 @@ class DatePicker extends S2SBaseComponent {
     if(this.props.dateType === 'dateRange') {
       inputValue += ' - ' + moment(this.state.endTimestamp).format(this.format);
     }
-    this.setState({...this.state, inputValue: inputValue, startTimestamp: newDate});
+
+    setTimeout(()=>{
+      //console.log('>>>', this.state);
+      this.setState({...this.state, inputValue: inputValue, startTimestamp: newDate, calendarDisplayed: false });
+    }, 0)
     if (this.props.cbOnChange){
+      console.log('2')
        this.props.cbOnChange(newDate, this.state.endTimestamp);
     }
 
@@ -173,6 +178,7 @@ class DatePicker extends S2SBaseComponent {
     }
     this.setState({...this.state, inputValue: inputValue, endTimestamp: newDate });
     if (this.props.cbOnChange){
+      console.log('3')
        this.props.cbOnChange( this.state.startTimestamp, newDate );
     }
   }
@@ -200,8 +206,9 @@ class DatePicker extends S2SBaseComponent {
               if (moment(newValue, this.format).isValid())
                 startTime = moment(newValue, this.format).valueOf();
             }
-            this.setState({ ...this.state, inputValue: newValue, startTimestamp: startTime, endTimestamp: endTime});
+            this.setState({ ...this.state, inputValue: newValue, startTimestamp: startTime, endTimestamp: endTime });
             if (this.props.cbOnChange){
+              console.log('1')
               this.props.cbOnChange(startTime, endTime);
             }
           }}
@@ -219,6 +226,7 @@ class DatePicker extends S2SBaseComponent {
         <div
             style={{...this.getStyle('svgContainer')}}
             onClick={()=>{
+              console.log(this.state.calendarDisplayed,'<<<<<')
               this.setState({...this.state, calendarDisplayed: !this.state.calendarDisplayed });
             }}
         >
@@ -325,7 +333,7 @@ class DatePicker extends S2SBaseComponent {
       }else{
         momentLocale = this.props.intl.locale;
       }
-  }
+    }
 
     moment.locale(momentLocale);
 

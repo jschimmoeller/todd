@@ -149,15 +149,23 @@ class ReportSummary extends Component {
 class ReportDetail extends Component {
   render(){
     console.log('PPP', this.props.data)
-    return (
-      <div style={{display: "flex", flex: "1", flexDirection:"column", alignItems: "center"}}>
-        <div style={{alignItems: "center"}}>Report Details - {this.props.data.reportDate}</div>
-        <div style={{paddingBottom: "40px"}}>Total Served: - {this.props.data.hmisSummary.length}</div>
-        <ReportSummary title="Race Summary" data={this.props.data.raceSummary} />
-        <ReportSummary title="Gender Summary" data={this.props.data.genderSummary} />
-        <ReportSummary title="Service Summary" data={this.props.data.servicesSummary} />
-        <HMISSummary title="HMIS Report Data" data={this.props.data.hmisSummary} />
-      </div>);
+    if (this.props.data.hmisSummary.length === 0 ){
+      return (
+        <div style={{display: "flex", flex: "1", flexDirection:"column", alignItems: "center"}}>
+          <div style={{alignItems: "center"}}>No Report Details for {this.props.data.reportDate}</div>
+        </div>);
+    } else {
+      return (
+        <div style={{display: "flex", flex: "1", flexDirection:"column", alignItems: "center"}}>
+          <div style={{alignItems: "center"}}>Report Details - {this.props.data.reportDate}</div>
+          <div style={{paddingBottom: "40px"}}>Total Served: - {this.props.data.hmisSummary.length}</div>
+          <ReportSummary title="Race Summary" data={this.props.data.raceSummary} />
+          <ReportSummary title="Gender Summary" data={this.props.data.genderSummary} />
+          <ReportSummary title="Service Summary" data={this.props.data.servicesSummary} />
+          <HMISSummary title="HMIS Report Data" data={this.props.data.hmisSummary} />
+        </div>);
+    }
+
   }
 }
 
@@ -177,20 +185,19 @@ class Reports extends Component {
     }
     return (
       <div>
-      <div style={{display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <div
-            style={{
-              display: 'flex',
-              color: '#fff',
-              fontFamily: 'avenir',
-              fontSize: '18px',
-              fontWeight: '700',
-              justifyContent: 'center',
-              marginTop: '75px'
-            }}
-        >
-            Reports
-        </div>
+      <div
+          style={{
+            display: 'flex',
+            color: '#fff',
+            fontFamily: 'avenir',
+            fontSize: '18px',
+            fontWeight: '700',
+            justifyContent: 'center'
+          }}
+      >
+          Reports
+      </div>
+      <div style={{display: "flex", justifyContent: "center" }}>
         <span
              style={{
                display: 'flex',
@@ -226,8 +233,8 @@ class Reports extends Component {
               borderRadius: '50px',
               color: '#29b794',
               height: '30px',
-              width: '300px',
-              flex: '1',
+              width: '100px',
+              //flex: '1',
               fontFamily: 'Avenir',
               fontSize: '18px',
               lineHeight: '1',

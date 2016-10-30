@@ -17,6 +17,7 @@ import { browserHistory } from 'react-router'
 class App extends Component {
   constructor(props){
     super(props);
+    moment.locale('en');
   }
 
   render(){
