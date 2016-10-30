@@ -16,7 +16,8 @@ const modalStyles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-end',
-    padding: '0px',
+    paddingLeft: '50px',
+    paddingRight: "50px",
     top : '50%',
     left : '50%',
     right : 'auto',
@@ -28,7 +29,7 @@ const modalStyles = {
 class HMISSummary extends Component {
   constructor(props){
     super(props);
-    this.state={showModal: false, data: undefined, summaryData: this.props.data };
+    this.state={showModal: false, data: undefined, summaryData: this.props.data, title: undefined };
     this.handleCancel = this.handleCancel.bind(this);
   }
   componentWillReceiveProps(nextProps){
@@ -56,7 +57,7 @@ class HMISSummary extends Component {
             />
           </div>
           <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-            <div style={{color: "white", fontWeight: "bold", paddingBottom: "10px", fontSize: "24px"}}>HMIS Details</div>
+            <div style={{color: "white", fontWeight: "bold", paddingBottom: "10px", fontSize: "24px"}}>HMIS Details - {this.state.title}</div>
             <div style={{paddingRight: "20px", paddingLeft: "20px"}}>
               {this.state.data}
             </div>
@@ -88,7 +89,7 @@ class HMISSummary extends Component {
             <span style={{width: "70px", display: "inline-block"}}>
               <button onClick={()=>{
                 //console.log('>>>', this.refs[i.hmisId+'-svc'])
-                this.setState({...this.state, showModal: true, data: i.svcCharString });
+                this.setState({...this.state, showModal: true, data: i.svcCharString, title: i.name  });
               }}>
                 <img src="view.png" width="15" height="15" style={{paddingRight: "6px"}}></img>
               </button>
